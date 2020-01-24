@@ -1,6 +1,6 @@
-import { model, Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-const postSchema = new Schema({
+export const PostModel = model('Post', new Schema({
   body: String,
   username: String,
   createdAt: String,
@@ -21,6 +21,4 @@ const postSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   }
-});
-
-export const PostModel = model('Post', postSchema);
+}));

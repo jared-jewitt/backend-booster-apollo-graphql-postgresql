@@ -1,36 +1,13 @@
 import mongoose from 'mongoose';
-import { ApolloServer, gql } from 'apollo-server';
+import { ApolloServer } from 'apollo-server';
 
-import { PostModel } from './models';
-
-const typeDefs = gql`
-  type Post {
-    id: ID!
-    body: String!
-    createdAt: String!
-    username: String!
-  }
-  type Query {
-    getPosts: [Post]
-  }
-`;
-
-const resolvers = {
-  Query: {
-    async getPosts() {
-      try {
-        return await PostModel.find();
-      } catch (err) {
-        throw new Error(err);
-      }
-    }
-  }
-};
+import typeDefs from './graphql/type-defs';
+import resolvers from './graphql/resolvers';
 
 const PORT = process.env.PORT || 5000;
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
 });
 
 mongoose
