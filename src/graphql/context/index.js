@@ -1,12 +1,7 @@
-import { getUser } from './user-context';
-import { UserModel, PostModel } from '../../db/models';
+import { getUserContext } from './user-context';
+import { getModelsContext } from './models-context';
 
-export default ({ req }) => {
-  return {
-    user: getUser(req),
-    models: {
-      UserModel,
-      PostModel,
-    },
-  };
-};
+export default ({ req, res }) => ({
+  user: getUserContext(req),
+  models: getModelsContext(),
+});

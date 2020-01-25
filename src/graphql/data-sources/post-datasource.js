@@ -1,3 +1,4 @@
+import { AuthenticationError } from 'apollo-server';
 import { DataSource } from 'apollo-datasource';
 
 export default class PostAPI extends DataSource {
@@ -10,30 +11,20 @@ export default class PostAPI extends DataSource {
   }
 
   async getPosts() {
-    try {
-      return await this.context.models.PostModel.find();
-    } catch (e) {
-      throw new Error(e);
-    }
+    return await this.context.models.Post.find();
   }
   
   async getPostById(postId) {
-    try {
-      const post = await this.context.models.PostModel.findById(postId);
-      if (post) return post;
-      throw new Error('Post not found');
-    } catch (e) {
-      throw new Error(e);
-    }
+    return await this.context.models.Post.findById(postId);
   }
   
   // TODO: ...
   async createPost(body) {
-  
+    if (!this.context.user) throw new AuthenticationError('Not authenticated');
   }
   
   // TODO: ...
   async deletePost(postId) {
-  
+    if (!this.context.user) throw new AuthenticationError('Not authenticated');
   }
 }

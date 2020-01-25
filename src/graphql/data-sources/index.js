@@ -1,5 +1,5 @@
-import UserAPI from './users-datasource';
-import PostAPI from './posts-datasource';
+import UserAPI from './user-datasource';
+import PostAPI from './post-datasource';
 
 export default () => ({
   userAPI: new UserAPI(),
