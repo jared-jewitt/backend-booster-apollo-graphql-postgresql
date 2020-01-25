@@ -2,7 +2,7 @@ import { gql } from 'apollo-server';
 
 export const userTypeDefs = gql`
   extend type Mutation {
-    login(loginInput: LoginInput): User!
+    login(loginInput: LoginInput): LoginResponse!
     register(registerInput: RegisterInput): User!
   }
   
@@ -15,11 +15,14 @@ export const userTypeDefs = gql`
     username: String!
     password: String!
   }
+
+  type LoginResponse {
+    token: String!
+    user: User!
+  }
   
   type User {
     id: ID!
     username: String!
-    createdAt: String!
-    token: String
   }
 `;

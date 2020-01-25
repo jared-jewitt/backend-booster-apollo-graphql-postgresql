@@ -16,30 +16,30 @@ export default class UserAPI extends DataSource {
   async login(loginInput) {
     const { username, password } = loginInput;
   
-    const user = await this.context.models.UserModel.findOne({ username });
-    const match = await bcrypt.compare(password, user.password);
-  
+    const user = await this.context.models.User.findOne({ username });
     if (!user) throw new UserInputError('User not found');
+  
+    const match = await bcrypt.compare(password, user.password);
     if (!match) throw new UserInputError('Wrong credentials');
     
     return {
-      ...user._doc,
-      id: user._id,
       token: generateJWTToken(user),
+      user: {
+        ...user._doc,
+        id: user._id,
+      },
     };
   }
   
   async register(registerInput) {
     const { username, password } = registerInput;
   
-    const user = await this.context.models.UserModel.findOne({ username });
-  
+    const user = await this.context.models.User.findOne({ username });
     if (user) throw new UserInputError('Username is taken');
     
-    const newUser = new this.context.models.UserModel({
+    const newUser = new this.context.models.User({
       username,
       password: await bcrypt.hash(password, 12),
-      createdAt: new Date().toISOString()
     });
   
     const res = await newUser.save();
