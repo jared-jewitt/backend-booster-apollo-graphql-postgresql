@@ -43,7 +43,6 @@ export default class UserAPI extends DataSource {
     });
   
     const res = await newUser.save();
-  
     return {
       ...res._doc,
       id: res._id,
