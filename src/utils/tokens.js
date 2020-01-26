@@ -7,7 +7,7 @@ export const generateJWTToken = (user) => {
       id: user._id,
       username: user.username,
     },
-    process.env.JWT_SECRET, { expiresIn: '1h' }
+    process.env.JWT_SECRET, { expiresIn: '7d' }
   );
 };
 

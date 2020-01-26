@@ -1,10 +1,10 @@
 import { ApolloServer } from 'apollo-server';
-import mongoose from 'mongoose';
 
 import typeDefs from './graphql/type-defs';
 import resolvers from './graphql/resolvers';
 import context from './graphql/context';
 import dataSources from './graphql/data-sources';
+import connectDatabase from './database/connect';
 
 const server = new ApolloServer({
   typeDefs,
@@ -13,14 +13,13 @@ const server = new ApolloServer({
   dataSources,
 });
 
-mongoose
-  .connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+connectDatabase()
   .then(() => {
-    console.log('MongoDB Connected');
+    console.log('MongoDB connected');
     return server.listen({ port: process.env.PORT || 5000 });
   })
   .then(({ url }) => {
-    console.log(`🚀 Server ready at ${url}`);
+    console.log(`Server ready at ${url}`);
   })
   .catch((e) => {
     console.error('Connection error:', e);

@@ -3,14 +3,14 @@ import { Schema, model } from 'mongoose';
 const PostSchema = new Schema({
   message: {
     type: String,
-    trim: true,
     required: true,
+    trim: true,
     maxlength: 1500,
   },
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
     required: true,
+    ref: 'User',
   },
 });
 
