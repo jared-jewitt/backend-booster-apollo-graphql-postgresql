@@ -7,14 +7,13 @@ export const postTypeDefs = gql`
   }
 
   extend type Mutation {
-    createPost(body: String!): Post!
+    createPost(message: String!): Post!
     deletePost(postId: ID!): String!
   }
   
   type Post {
     id: ID!
-    body: String!
-    createdAt: String!
+    message: String!
     user: ID!
   }
 `;

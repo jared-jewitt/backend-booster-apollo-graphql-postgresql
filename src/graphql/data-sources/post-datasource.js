@@ -1,4 +1,4 @@
-import { AuthenticationError } from 'apollo-server';
+import { ForbiddenError } from 'apollo-server';
 import { DataSource } from 'apollo-datasource';
 
 export default class PostAPI extends DataSource {
@@ -11,20 +11,45 @@ export default class PostAPI extends DataSource {
   }
 
   async getPosts() {
-    return await this.context.models.Post.find();
+    try {
+      return await this.context.models.Post.find();
+    } catch (e) {
+      return e;
+    }
   }
   
   async getPostById(postId) {
-    return await this.context.models.Post.findById(postId);
+    try {
+      return await this.context.models.Post.findById(postId);
+    } catch (e) {
+      return e;
+    }
   }
   
-  // TODO: ...
-  async createPost(body) {
-    if (!this.context.user) throw new AuthenticationError('Not authenticated');
+  async createPost(message) {
+    const newPost = new this.context.models.Post({
+      message,
+      user: this.context.user.id,
+    });
+  
+    const res = await newPost.save();
+    return {
+      ...res._doc,
+      id: res._id,
+    };
   }
   
-  // TODO: ...
   async deletePost(postId) {
-    if (!this.context.user) throw new AuthenticationError('Not authenticated');
+    try {
+      const post = await this.context.models.Post.findById(postId);
+      if (this.context.user.id === post.user.toString()) {
+        await post.delete();
+        return 'Post deleted successfully';
+      } else {
+        throw new ForbiddenError('You are not authorized to delete this post');
+      }
+    } catch (e) {
+      return e;
+    }
   }
 }

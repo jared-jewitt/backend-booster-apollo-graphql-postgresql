@@ -1,9 +1,17 @@
 import { Schema, model } from 'mongoose';
 
-export const PostModel = model('Post', new Schema({
-  body: String,
+const PostSchema = new Schema({
+  message: {
+    type: String,
+    trim: true,
+    required: true,
+    maxlength: 1500,
+  },
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
-  }
-}));
+    ref: 'User',
+    required: true,
+  },
+});
+
+export const PostModel = model('Post', PostSchema, 'posts');
