@@ -7,6 +7,12 @@ It contains the following development tooling:
 - [ESLint](https://eslint.org/)
 - [Babel](https://babeljs.io/)
 - [Nodemon](https://nodemon.io/)
+- [Jest](https://jestjs.io/)
+
+#### Requirements (If not using Docker):
+
+- [Node](https://nodejs.org/en/)
+- [MongoDB](https://docs.mongodb.com/manual/installation/)
 
 #### Developers:
 
@@ -29,6 +35,9 @@ It contains the following development tooling:
 | npm run start               | Runs the application locally with hot reloading on port 5000                     |
 | npm run build               | Builds the application                                                           |
 | npm run serve               | Runs the built application on port 5000. Requires ***npm run build*** first      |
+| npm run test                | TODO                                                                             |
+| npm run test:update         | TODO                                                                             |
+| npm run test:coverage       | TODO                                                                             |
 | npm run lint                | Identifies linting warnings/errors                                               |
 | npm run lint:fix            | Fixes linting errors                                                             |
 
@@ -36,4 +45,8 @@ It contains the following development tooling:
 
 The word "portable" from the repository name derives from the idea of [Infrastructure as Code](https://docs.microsoft.com/en-us/azure/devops/learn/what-is-infrastructure-as-code).
 Thus, this application is intended to be used as a [Submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules). Deployment 
-logic will sit in a separate "parent" repository. 
+logic will sit in a separate "parent" repository.
+
+## License
+
+Code released under the [Apache License, Version 2.0](LICENSE).

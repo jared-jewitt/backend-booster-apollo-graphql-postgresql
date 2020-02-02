@@ -2,7 +2,7 @@ import { DataSource } from 'apollo-datasource';
 import { UserInputError } from 'apollo-server';
 import bcrypt from 'bcryptjs';
 
-import { generateJWTToken } from '../../utils';
+import { generateJWTToken } from '../utils';
 
 export default class UserAPI extends DataSource {
   constructor() {
@@ -15,13 +15,13 @@ export default class UserAPI extends DataSource {
 
   async login(loginInput) {
     const { username, password } = loginInput;
-  
+
     const user = await this.context.models.User.findOne({ username });
     if (!user) throw new UserInputError('User not found');
-  
+
     const match = await bcrypt.compare(password, user.password);
     if (!match) throw new UserInputError('Wrong credentials');
-    
+
     return {
       token: generateJWTToken(user),
       user: {
@@ -30,18 +30,18 @@ export default class UserAPI extends DataSource {
       },
     };
   }
-  
+
   async register(registerInput) {
     const { username, password } = registerInput;
-  
+
     const user = await this.context.models.User.findOne({ username });
     if (user) throw new UserInputError('Username is taken');
-    
+
     const newUser = new this.context.models.User({
       username,
       password: await bcrypt.hash(password, 12),
     });
-  
+
     const res = await newUser.save();
     return {
       ...res._doc,

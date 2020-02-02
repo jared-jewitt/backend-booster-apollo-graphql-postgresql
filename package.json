@@ -5,13 +5,21 @@
   "author": "Jared Jewitt <jaredjewitt@gmail.com> (https://jared-jewitt.github.io/)",
   "license": "ISC",
   "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jared-jewitt/portable-graphql-boilerplate.git"
+  },
   "main": "src/server.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development nodemon --exec babel-node -r dotenv/config src/server.js",
     "build": "babel src --out-dir dist",
     "serve": "cross-env NODE_ENV=production node -r dotenv/config dist/server.js",
+    "test": "echo \"TODO...\"",
+    "test:update": "echo \"TODO...\"",
+    "test:coverage": "echo \"TODO...\"",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "seed-db": "echo \"Simulate seeding...\""
   },
   "dependencies": {
     "apollo-datasource": "^0.6.4",
