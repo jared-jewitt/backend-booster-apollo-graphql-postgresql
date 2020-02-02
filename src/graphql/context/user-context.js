@@ -1,4 +1,4 @@
-import { verifyJWTToken } from '../../utils';
+import { verifyJWTToken } from '../utils';
 
 export const getUserContext = (req) => {
   const authHeader = req.headers.authorization || '';

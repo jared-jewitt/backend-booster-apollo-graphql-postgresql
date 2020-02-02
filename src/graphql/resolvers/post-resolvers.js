@@ -1,4 +1,4 @@
-import { authGuard } from '../../utils';
+import { authGuard } from '../utils';
 
 export const getPosts = async (_, __, { dataSources }) => {
   return await dataSources.postAPI.getPosts();
