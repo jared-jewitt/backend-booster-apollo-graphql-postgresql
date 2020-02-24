@@ -11,15 +11,15 @@
   },
   "main": "src/server.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development nodemon --exec babel-node -r dotenv/config src/server.js",
+    "start": "cross-env NODE_ENV=development nodemon -L --exec babel-node -r dotenv/config src/server.js",
     "build": "babel src --out-dir dist",
     "serve": "cross-env NODE_ENV=production node -r dotenv/config dist/server.js",
-    "test": "echo \"TODO...\"",
-    "test:update": "echo \"TODO...\"",
-    "test:coverage": "echo \"TODO...\"",
+    "test": "jest",
+    "test:update": "jest --updateSnapshot",
+    "test:coverage": "jest --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "seed-db": "echo \"Simulate seeding...\""
+    "seed-db": "echo \"TODO...\" "
   },
   "dependencies": {
     "apollo-datasource": "^0.6.4",
@@ -38,6 +38,7 @@
     "cross-env": "^6.0.3",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
+    "jest": "^24.9.0",
     "nodemon": "^2.0.2"
   }
 }

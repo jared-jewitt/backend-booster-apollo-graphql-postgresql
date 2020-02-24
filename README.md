@@ -9,7 +9,7 @@ It contains the following development tooling:
 - [Nodemon](https://nodemon.io/)
 - [Jest](https://jestjs.io/)
 
-#### Requirements (If not using Docker):
+#### Requirements:
 
 - [Node](https://nodejs.org/en/)
 - [MongoDB](https://docs.mongodb.com/manual/installation/)
@@ -20,7 +20,7 @@ It contains the following development tooling:
 
 ## Getting Started
 
-1. Rename the `.env.example` file to `.env` and add paste your desired env variables there. If you don't need env
+1. Rename the `.env.example` file to `.env` and paste your desired env variables there. If you don't need env
  variables, just delete the file.
 
 2. Start the app locally by running `npm install` (if you haven't already), then the command `npm run start` in the
@@ -35,17 +35,19 @@ It contains the following development tooling:
 | npm run start               | Runs the application locally with hot reloading on port 5000                     |
 | npm run build               | Builds the application                                                           |
 | npm run serve               | Runs the built application on port 5000. Requires ***npm run build*** first      |
-| npm run test                | TODO                                                                             |
-| npm run test:update         | TODO                                                                             |
-| npm run test:coverage       | TODO                                                                             |
+| npm run test                | Runs all jest tests                                                              |
+| npm run test:update         | Updates jest snapshot files                                                      |
+| npm run test:coverage       | Runs all jest tests and displays a coverage report in the console                |
 | npm run lint                | Identifies linting warnings/errors                                               |
 | npm run lint:fix            | Fixes linting errors                                                             |
+| npm run seed-db             | TODO                                                                             |
 
 ## Deployment
 
-The word "portable" from the repository name derives from the idea of [Infrastructure as Code](https://docs.microsoft.com/en-us/azure/devops/learn/what-is-infrastructure-as-code).
-Thus, this application is intended to be used as a [Submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules). Deployment 
-logic will sit in a separate "parent" repository.
+The word "portable" from the repository name derives from the idea of infrastructure modularization.
+Thus, this application is intended to be treated as a "child" repository. Deployment logic will sit in a separate
+"parent" repository. Parent repositories are suffixed with the word "wrapper". 
+Click [here](https://github.com/jared-jewitt/fullstack-node-wrapper) for an example.
 
 ## License
 
