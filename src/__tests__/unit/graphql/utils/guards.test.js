@@ -4,18 +4,14 @@ describe('guards - unit', () => {
 
   describe('`authGuard` function' , () => {
 
-    it('throws authentication error', () => {
+    it('throws authentication error',  () => {
       const mockNext = jest.fn();
       const mockRoot = {};
       const mockArgs = {};
       const mockContext = {};
       const mockInfo = {};
-
-      try {
-        authGuard(mockNext)(mockRoot, mockArgs, mockContext, mockInfo)
-      } catch (e) {
-        expect(e.message).toBe('Not authenticated');
-      }
+      
+      expect(() => authGuard(mockNext)(mockRoot, mockArgs, mockContext, mockInfo)).toThrow();
     });
 
     it('calls `next` function', () => {
