@@ -12,7 +12,7 @@ describe('guards - unit', () => {
       const mockInfo = {};
 
       try {
-        authGuard(mockNext)(mockRoot, mockArgs, mockContext, mockInfo)
+        authGuard(mockNext)(mockRoot, mockArgs, mockContext, mockInfo);
       } catch (e) {
         expect(e.message).toBe('Not authenticated');
       }
