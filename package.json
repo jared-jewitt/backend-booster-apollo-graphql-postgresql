@@ -7,7 +7,7 @@
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/jared-jewitt/portable-graphql-boilerplate.git"
+    "url": "https://github.com/portable-boilerplates/portable-graphql-boilerplate.git"
   },
   "main": "src/server.js",
   "scripts": {
