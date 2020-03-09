@@ -1,8 +1,12 @@
-# Portable GraphQL Boilerplate
+# Portable Backend Boilerplate - GraphQL
 
-This codebase is a JavaScript boilerplate for creating [GraphQL](https://graphql.org/) applications. 
+This codebase is a boilerplate for creating GraphQL applications. It is intended to be used as a module for 
+my [Launch pads](https://github.com/launch-pads). However, that being said, it can still be used completely on its own.
 
-It contains the following development tooling:
+In order for a portable boilerplate to work with a Launch pad, it must abide by the following guidelines:
+> <https://github.com/portable-boilerplates/guidelines>
+
+This boilerplate contains the following development tooling:
 
 - [ESLint](https://eslint.org/)
 - [Babel](https://babeljs.io/)
@@ -20,21 +24,25 @@ It contains the following development tooling:
 
 ## Getting Started
 
-1. Rename the `.env.example` file to `.env` and paste your desired env variables there. If you don't need env 
-variables, just delete the file.
+1. Rename the `.env.example` file to `.env` and paste your desired env variables there.
 
 2. Run the app via either of the options below. After that, visit your app at `http://localhost:5000`.
 
 ##### Without Docker
 ```
-$ npm install
-$ npm run start
+npm install
+npm run start
 ```
  
 ##### With Docker
 ```
-$ docker build -f server.Dockerfile.development -t portable-graphql .
-$ docker run -d -p 5000:5000 portable-graphql
+# Database
+docker build -f database.Dockerfile -t portable-mongo:dev .
+docker run -d --name portable_mongo portable-mongo:dev
+
+# Server
+docker build -f server.Dockerfile.development -t portable-graphql:dev .
+docker run -d -p 5000:5000 --name portable_graphql portable-graphql:dev
 ```
 
 ## Commands
@@ -50,13 +58,6 @@ $ docker run -d -p 5000:5000 portable-graphql
 | npm run lint          | Identifies linting warnings/errors                                           |
 | npm run lint:fix      | Fixes linting errors                                                         |
 | npm run seed-db       | TODO                                                                         |
-
-## Deployment
-
-The word "portable" from the repository name derives from the idea of infrastructure modularization.
-Thus, this application is intended to be treated as a "child" repository. Deployment logic will sit in a separate
-"parent" repository, which pulls in the child. That being said, to deploy your app, pick an appropriate launchpad from 
-[my launchpads](https://github.com/launch-pads) and follow the deployment instructions there.
 
 ## License
 
