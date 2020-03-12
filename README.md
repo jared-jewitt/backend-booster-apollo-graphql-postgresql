@@ -24,7 +24,7 @@ This boilerplate contains the following development tooling:
 
 ## Getting Started
 
-1. Rename the `.env.example` file to `.env` and paste your desired env variables there.
+1. Rename [.env-example](.env-example) file to `.env` and paste your desired env variable(s) there.
 
 2. Run the app via either of the options below. After that, visit your app at `http://localhost:5000`.
 
@@ -36,13 +36,16 @@ npm run start
  
 ##### With Docker
 ```
+# Network
+docker network create --driver=bridge portable-network
+
 # Database
-docker build -f database.Dockerfile -t portable-mongo:dev .
-docker run -d --name portable_mongo portable-mongo:dev
+docker build --file=database.Dockerfile --tag=portable-mongo:dev .
+docker run -d --publish=27017:27017 --name=portable_mongo --network=portable-network --volume=db-data:/data/db portable-mongo:dev
 
 # Server
-docker build -f server.Dockerfile.development -t portable-graphql:dev .
-docker run -d -p 5000:5000 --name portable_graphql portable-graphql:dev
+docker build --file=server.Dockerfile.development --tag=portable-graphql:dev .
+docker run -d --publish=5000:5000 --name=portable_graphql --network=portable-network --volume=${PWD}:/usr/src/app --volume=/usr/src/app/node_modules --env="DATABASE_URL=mongodb://portable_mongo:27017/dev_db" portable-graphql:dev                    
 ```
 
 ## Commands
