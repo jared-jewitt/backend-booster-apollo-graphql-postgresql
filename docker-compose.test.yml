@@ -1,0 +1,41 @@
+version: "3.7"
+
+####################### Services Definition #######################
+services:
+
+  server-test:
+    container_name: server_test
+    image: server:test
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    environment:
+      - DATABASE_URL=mongodb://admin:password@database_test:27017/test_db
+    depends_on:
+      - database-test
+    networks:
+      - default
+
+  database-test:
+    container_name: database_test
+    image: mongo:3.6
+    volumes:
+      - "db-data:/data/db"
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_DATABASE=test_db
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    networks:
+      - default
+
+####################### Networks Definition #######################
+networks:
+  default:
+    driver: bridge
+
+####################### Volumes Definition ########################
+volumes:
+  db-data:
+    driver: local

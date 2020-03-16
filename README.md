@@ -36,16 +36,7 @@ npm run start
  
 ##### With Docker
 ```
-# Network
-docker network create --driver=bridge portable-network
-
-# Database
-docker build --file=database.Dockerfile --tag=portable-mongo:dev .
-docker run -d --publish=27017:27017 --name=portable_mongo --network=portable-network --volume=db-data:/data/db portable-mongo:dev
-
-# Server
-docker build --file=server.Dockerfile.development --tag=portable-graphql:dev .
-docker run -d --publish=5000:5000 --name=portable_graphql --network=portable-network --volume=${PWD}:/usr/src/app --volume=/usr/src/app/node_modules --env="DATABASE_URL=mongodb://portable_mongo:27017/dev_db" portable-graphql:dev                    
+docker-compose --file=docker-compose.development.yml up -d           
 ```
 
 ## Commands
