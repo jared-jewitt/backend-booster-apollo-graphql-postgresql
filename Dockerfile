@@ -12,7 +12,4 @@ RUN npm install
 # Copy the contents of the project to the image
 COPY . .
 
-RUN npm run build
-
-EXPOSE $PORT
 CMD ["npm", "run", "serve"]

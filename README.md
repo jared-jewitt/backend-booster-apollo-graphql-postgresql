@@ -24,7 +24,8 @@ This boilerplate contains the following development tooling:
 
 ## Getting Started
 
-1. Rename [.env-example](.env-example) file to `.env` and paste your desired env variable(s) there.
+1. Rename [.env-example](.env-example) file to `.env` and enter a value for `JWT_SECRET` as well as add any other
+desired env variable(s).
 
 2. Run the app via either of the options below. After that, visit your app at `http://localhost:5000`.
 
@@ -36,22 +37,23 @@ npm run start
  
 ##### With Docker
 ```
-docker-compose --file=docker-compose.development.yml up -d           
+docker-compose --file=docker-compose.dev.yml up -d           
 ```
 
 ## Commands
 
-| Command               | Description                                                                  |
-|-----------------------|------------------------------------------------------------------------------|
-| npm run start         | Runs the application locally with hot reloading on port 5000                 |
-| npm run build         | Builds the application                                                       |
-| npm run serve         | Runs the built application on port 5000. Requires ***npm run build*** first  |
-| npm run test          | Runs all jest tests                                                          |
-| npm run test:update   | Updates jest snapshot files                                                  |
-| npm run test:coverage | Runs all jest tests and displays a coverage report in the console            |
-| npm run lint          | Identifies linting warnings/errors                                           |
-| npm run lint:fix      | Fixes linting errors                                                         |
-| npm run seed-db       | TODO                                                                         |
+| Command               | Description                                                        |
+|-----------------------|--------------------------------------------------------------------|
+| npm run build         | Builds the application                                             |
+| npm run start         | Runs the application locally with hot reloading on port 5000       |
+| npm run serve         | Builds the application then runs the application on port 5000      |
+| npm run db:seed       | Seeds the database with dummy data                                 |
+| npm run db:wipe       | Purges all records from the database                               |
+| npm run test          | Runs all jest tests                                                |
+| npm run test:update   | Updates jest snapshot files                                        |
+| npm run test:coverage | Runs all jest tests and displays a coverage report in the console  |
+| npm run lint          | Identifies linting warnings/errors                                 |
+| npm run lint:fix      | Fixes linting errors                                               |
 
 ## License
 

@@ -11,19 +11,11 @@ export default class PostAPI extends DataSource {
   }
 
   async getPosts() {
-    try {
-      return await this.context.models.Post.find();
-    } catch (e) {
-      return e;
-    }
+    return await this.context.models.Post.find();
   }
   
   async getPostById(postId) {
-    try {
-      return await this.context.models.Post.findById(postId);
-    } catch (e) {
-      return e;
-    }
+    return await this.context.models.Post.findById(postId);
   }
   
   async createPost(message) {
@@ -40,16 +32,12 @@ export default class PostAPI extends DataSource {
   }
   
   async deletePost(postId) {
-    try {
-      const post = await this.context.models.Post.findById(postId);
-      if (this.context.user.id === post.user.toString()) {
-        await post.delete();
-        return 'Post deleted successfully';
-      } else {
-        throw new ForbiddenError('You are not authorized to delete this post');
-      }
-    } catch (e) {
-      return e;
+    const post = await this.context.models.Post.findById(postId);
+    if (this.context.user.id === post.user.toString()) {
+      await post.delete();
+      return 'Post deleted successfully';
+    } else {
+      throw new ForbiddenError('You are not authorized to delete this post');
     }
   }
 }

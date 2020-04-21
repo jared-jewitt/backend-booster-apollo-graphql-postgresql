@@ -4,7 +4,7 @@ import typeDefs from './graphql/type-defs';
 import resolvers from './graphql/resolvers';
 import context from './graphql/context';
 import dataSources from './graphql/data-sources';
-import connectDatabase from './database/connect';
+import database from './database';
 
 const server = new ApolloServer({
   typeDefs,
@@ -13,14 +13,13 @@ const server = new ApolloServer({
   dataSources,
 });
 
-connectDatabase()
-  .then(() => {
-    console.log('MongoDB connected');
-    return server.listen({ port: process.env.PORT || 5000 });
-  })
-  .then(({ url }) => {
-    console.log(`Server ready at ${url}`);
-  })
-  .catch((e) => {
+(async () => {
+  try {
+    await database.connect();
+    const { url } = await server.listen({ port: process.env.PORT || 5000 });
+    console.log(`🚀 Server ready at ${url}`);
+  } catch (e) {
+    database.disconnect();
     console.error('Connection error:', e);
-  });
+  }
+})();

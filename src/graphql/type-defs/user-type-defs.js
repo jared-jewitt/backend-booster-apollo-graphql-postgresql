@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server';
 
-export const userTypeDefs = gql`
+export default gql`
   extend type Mutation {
     login(loginInput: LoginInput): LoginResponse!
     register(registerInput: RegisterInput): User!

@@ -5,7 +5,7 @@ import { gql } from 'apollo-server';
  * the client can execute. To use them, extend them in another schema.
  * See {@link userTypeDefs}
  */
-export const baseTypeDefs = gql`
+export default gql`
   type Query
   type Mutation
 `;

@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const UserSchema = new Schema({
+export default model('User', new Schema({
   username: {
     type: String,
     required: true,
@@ -15,6 +15,4 @@ const UserSchema = new Schema({
     minlength: 8,
     maxlength: 225,
   },
-});
-
-export const UserModel = model('User', UserSchema, 'users');
+}), 'users');

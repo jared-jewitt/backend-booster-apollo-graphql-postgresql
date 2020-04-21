@@ -1,7 +1,7 @@
-export const login = async (_, { loginInput }, { dataSources }) => {
-  return await dataSources.userAPI.login(loginInput);
+export const login = (_, { loginInput }, { dataSources }) => {
+  return dataSources.userAPI.login(loginInput);
 };
 
-export const register = async (_, { registerInput }, { dataSources }) => {
-  return await dataSources.userAPI.register(registerInput);
+export const register = (_, { registerInput }, { dataSources }) => {
+  return dataSources.userAPI.register(registerInput);
 };

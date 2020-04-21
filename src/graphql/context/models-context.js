@@ -1,6 +1,3 @@
-import { PostModel, UserModel } from '../../database/models';
+import * as models from '../../database/models';
 
-export const getModelsContext = () => ({
-  User: UserModel,
-  Post: PostModel,
-});
+export default () => models;
