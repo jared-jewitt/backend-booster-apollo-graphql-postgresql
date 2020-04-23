@@ -24,23 +24,28 @@ This boilerplate contains the following development tooling:
 
 ## Getting Started
 
-1. Rename [.env-example](.env-example) file to `.env` and enter a value for `JWT_SECRET` as well as add any other
-desired env variable(s).
+1. Rename [.env-example](.env-example) file to `.env` and enter a value for `JWT_SECRET`, as well as add any other
+desired env variable(s) you may want
 
-2. Run the app via either of the options below. After that, visit your app at `http://localhost:5000`.
+2. Run the app via either of the options below. After that, visit your app at `http://localhost:5000`
 
 ##### Without Docker
+
 ```
 npm install
 npm run start
 ```
  
 ##### With Docker
+
 ```
-docker-compose --file=docker-compose.dev.yml up -d           
+docker-compose up           
 ```
 
 ## Commands
+
+> Note: To use these commands with Docker, run them as such: `docker exec client npm run ...`. Make sure the container
+> is already running.
 
 | Command               | Description                                                        |
 |-----------------------|--------------------------------------------------------------------|
