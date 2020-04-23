@@ -12,7 +12,7 @@ const connectionString = process.env.DATABASE_URL ? process.env.DATABASE_URL : {
   'development': 'mongodb://localhost:27017/dev_db',
   'production': 'mongodb://localhost:27017/prod_db',
   'test': 'mongodb://localhost:27017/test_db',
-}[process.env.NODE_ENV];
+}[process.env.NODE_ENV] || 'mongodb://localhost:27017/dev_db';
 
 export default {
   disconnect: () => mongoose.connection.close(),
