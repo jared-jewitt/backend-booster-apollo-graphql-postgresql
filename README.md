@@ -44,8 +44,8 @@ docker-compose up
 
 ## Commands
 
-> Note: To use these commands with Docker, run them as such: `docker exec server npm run ...` (make sure the container
-> is already running).
+> Note: To use these commands with Docker, run them like such: `docker exec -it server npm run ...` (make sure the
+> container is already running).
 
 | Command               | Description                                                        |
 |-----------------------|--------------------------------------------------------------------|
