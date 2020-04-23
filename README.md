@@ -39,13 +39,13 @@ npm run start
 ##### With Docker
 
 ```
-docker-compose up           
+docker-compose up
 ```
 
 ## Commands
 
-> Note: To use these commands with Docker, run them as such: `docker exec client npm run ...`. Make sure the container
-> is already running.
+> Note: To use these commands with Docker, run them as such: `docker exec client npm run ...` (make sure the container
+> is already running).
 
 | Command               | Description                                                        |
 |-----------------------|--------------------------------------------------------------------|
