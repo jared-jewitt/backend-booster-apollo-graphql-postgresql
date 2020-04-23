@@ -5,8 +5,9 @@ services:
 
   server:
     container_name: server
-    build: .
-    command: ["npm", "run", "start"]
+    build:
+      context: .
+      dockerfile: Dockerfile.development
     volumes:
       - "./:/usr/src/app"
       - "/usr/src/app/node_modules"
