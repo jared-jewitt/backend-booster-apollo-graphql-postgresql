@@ -2,8 +2,8 @@
 
 This codebase is a boilerplate for creating GraphQL applications. It is intended to be used as a module for 
 my [Launch pads](https://github.com/launch-pads). However, that being said, it can still be used completely on its own.
-In order for a portable boilerplate to work with a Launch pad, it must abide by the following guidelines:
 
+In order for a portable boilerplate to work with a Launch pad, it must abide by the following guidelines:
 > <https://github.com/portable-boilerplates/guidelines>
 
 This boilerplate contains the following development tooling:
