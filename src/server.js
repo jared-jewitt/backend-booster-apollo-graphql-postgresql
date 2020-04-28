@@ -1,3 +1,5 @@
+import path from 'path';
+import { env } from 'custom-env';
 import { ApolloServer } from 'apollo-server';
 
 import typeDefs from './graphql/type-defs';
@@ -14,6 +16,7 @@ const server = new ApolloServer({
 });
 
 (async () => {
+  env(process.env.NODE_ENV, path.join(__dirname, '../'));
   try {
     await database.connect();
     const { url } = await server.listen({ port: process.env.PORT || 5000 });

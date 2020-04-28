@@ -1,0 +1,17 @@
+FROM node:12-alpine AS builder
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install
+COPY . .
+
+# Development
+FROM builder AS development
+CMD ["npm", "run", "start"]
+
+# Test
+FROM builder AS test
+CMD ["npm", "run", "test"]
+
+# Production
+FROM builder AS production
+CMD ["npm", "run", "serve"]

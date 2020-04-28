@@ -4,14 +4,11 @@ version: "3.7"
 services:
   server:
     container_name: server
-    image: server:dev
+    image: server:test
     build:
       context: .
       dockerfile: Dockerfile.server
-      target: "development"
-    volumes:
-      - "./:/usr/src/app"
-      - "/usr/src/app/node_modules"
+      target: "test"
     ports:
       - 5000:5000
     environment:
@@ -23,12 +20,10 @@ services:
 
   database:
     container_name: database
-    image: database:dev
+    image: database:test
     build:
       context: .
       dockerfile: Dockerfile.database
-    volumes:
-      - "db-data:/data/db"
     ports:
       - 27017:27017
     environment:
@@ -41,8 +36,3 @@ services:
 networks:
   default:
     driver: bridge
-
-####################### Volumes Definition ########################
-volumes:
-  db-data:
-    driver: local
