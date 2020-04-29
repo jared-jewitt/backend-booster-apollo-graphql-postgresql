@@ -57,8 +57,8 @@ npm run start
 | npm run lint          | Identifies linting warnings/errors                                 |
 | npm run lint:fix      | Fixes linting errors                                               |
 
-> Note: To use these commands with Docker, run them like such: `docker-compose exec -it server npm run ...` (make sure 
-> the container is already running).
+> Note: To use these commands with Docker, run them like such: \
+> `docker-compose exec -it server npm run ...` (make sure the container is running).
 
 ## Environment Variables
 
