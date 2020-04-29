@@ -62,9 +62,11 @@ npm run start
 
 ## Environment Variables
 
-Please note the [.env.development](.env.development) and [.env.test](.env.test) files. These values should only be 
-used for running the app locally (which is why they're committed to git). If you are deploying this app, it is expected
-you use a `.env.production` file (git ignored), or specify env vars on the hosted server.
+Please note the [.env.development](.env.development) and [.env.test](.env.test) files. These values are only 
+used when running the app locally (which is why they're committed to git). If you are deploying this app, it is expected
+you use a `.env.production` file (which is git ignored), or specify env vars on the hosted server. The package 
+[Custom-Env](https://www.npmjs.com/package/custom-env) is being used to determine which env file loads based on the 
+`NODE_ENV`.
 
 ## License
 
