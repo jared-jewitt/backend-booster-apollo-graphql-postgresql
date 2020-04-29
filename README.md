@@ -23,7 +23,7 @@ This boilerplate contains the following development tooling:
 
 ## Getting Started
 
-> Run the app via either option below, then visit your server at `http://localhost:5000`
+Run the app via either option below, then visit your server at `http://localhost:5000`
 
 ##### **With Docker**
 
@@ -44,6 +44,9 @@ npm run start
 
 ## Commands
 
+> Note: To use these commands with Docker, run them like such: \
+> `docker-compose exec -it server npm run ...` (make sure the container is running).
+
 | Command               | Description                                                        |
 |-----------------------|--------------------------------------------------------------------|
 | npm run build         | Builds the application                                             |
@@ -56,9 +59,6 @@ npm run start
 | npm run test:coverage | Runs all jest tests and displays a coverage report in the console  |
 | npm run lint          | Identifies linting warnings/errors                                 |
 | npm run lint:fix      | Fixes linting errors                                               |
-
-> Note: To use these commands with Docker, run them like such: \
-> `docker-compose exec -it server npm run ...` (make sure the container is running).
 
 ## Environment Variables
 
