@@ -1,5 +1,5 @@
-import { AuthenticationError } from 'apollo-server';
 import jwt from 'jsonwebtoken';
+import { AuthenticationError } from 'apollo-server';
 
 export const generateJWTToken = (user) => {
   return jwt.sign(
