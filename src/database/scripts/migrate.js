@@ -11,6 +11,7 @@ import database from '..';
     const umzug = new Umzug({
       migrations: {
         path: path.join(__dirname, '../migrations'),
+        params: [instance],
       },
       storage: 'mongodb',
       storageOptions: {
@@ -29,14 +30,15 @@ import database from '..';
         await umzug.down({ to: migrationVersion });
         break;
       default:
-        throw new Error('Invalid migration type');
+        throw new Error('Invalid migration type. Must pass either "up" or "down"');
     }
 
+    await database.disconnect();
+
     console.log('Migrations ran successfully!');
+    process.exit(0);
   } catch (e) {
     console.log(e);
-  } finally {
-    database.disconnect();
-    process.exit();
+    process.exit(1);
   }
 })();

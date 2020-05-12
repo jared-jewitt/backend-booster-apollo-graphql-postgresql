@@ -22,7 +22,8 @@ const server = new ApolloServer({
     const { url } = await server.listen({ port: process.env.PORT || 5000 });
     console.log(`🚀 Server ready at ${url}`);
   } catch (e) {
-    database.disconnect();
     console.log(e);
+    await database.disconnect();
+    process.exit(1);
   }
 })();

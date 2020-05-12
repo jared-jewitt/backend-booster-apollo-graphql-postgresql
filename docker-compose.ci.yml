@@ -32,6 +32,50 @@ services:
     networks:
       - default
 
+  database-migrate-up:
+    image: database:migrate-up
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+      target: "migrate-up"
+    depends_on:
+      - database
+    networks:
+      - default
+
+  database-migrate-down:
+    image: database:migrate-down
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+      target: "migrate-down"
+    depends_on:
+      - database
+    networks:
+      - default
+
+  database-seed:
+    build:
+      image: database:seed
+      context: .
+      dockerfile: Dockerfile.server
+      target: "seed"
+    depends_on:
+      - database
+    networks:
+      - default
+
+  database-wipe:
+    image: database:wipe
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+      target: "wipe"
+    depends_on:
+      - database
+    networks:
+      - default
+
 ####################### Networks Definition #######################
 networks:
   default:

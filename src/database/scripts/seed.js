@@ -21,11 +21,12 @@ import { User, Post } from '../models';
       user: user._id,
     })));
 
+    await database.disconnect();
+
     console.log('Database seeded!');
+    process.exit(0);
   } catch (e) {
     console.log(e);
-  } finally {
-    database.disconnect();
-    process.exit();
+    process.exit(1);
   }
 })();

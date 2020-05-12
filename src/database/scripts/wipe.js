@@ -8,11 +8,12 @@ import database from '..';
   try {
     const instance = await database.connect();
     await instance.connection.db.dropDatabase();
+    await database.disconnect();
+
     console.log('Database wiped!');
+    process.exit(0);
   } catch (e) {
     console.log(e);
-  } finally {
-    database.disconnect();
-    process.exit();
+    process.exit(1);
   }
 })();

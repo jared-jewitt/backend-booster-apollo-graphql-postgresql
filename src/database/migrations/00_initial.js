@@ -1,8 +1,8 @@
 export default {
-  async up() {
-    /* ... */
+  async up(db) {
+    /** ... */
   },
-  async down() {
-    /* ... */
+  async down(db) {
+    /** ... */
   },
 };

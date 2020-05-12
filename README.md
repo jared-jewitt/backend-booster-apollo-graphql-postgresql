@@ -53,8 +53,8 @@ npm run start
 | npm run serve                     | Builds the application then runs the application on port 5000                    |
 | npm run db:seed                   | Seeds the database with dummy data                                               |
 | npm run db:wipe                   | Purges all records from the database                                             |
-| npm run db:migrate-up <version>   | Updates the database to the specified version (or latest version if unspecified) |
-| npm run db:migrate-down <version> | Reverts the database to the specified version (or last version if unspecified)   |
+| npm run db:migrate up <version>   | Updates the database to the specified version (or latest version if unspecified) |
+| npm run db:migrate down <version> | Reverts the database to the specified version (or last version if unspecified)   |
 | npm run test                      | Runs all jest tests                                                              |
 | npm run test:update               | Updates jest snapshot files                                                      |
 | npm run test:coverage             | Runs all jest tests and displays a coverage report in the console                |
@@ -64,13 +64,13 @@ npm run start
 ## Database Migrations
 
 Migrations are located in [src/database/migrations](src/database/migrations). To create a migration, use the following
-naming pattern: `[version]_[migration-name].js`. The file must export a default object with asynchronous `up` and 
-`down` methods. See the [example](src/database/migrations/00_initial.js) file.
+naming pattern: `[version]_[name].js`. The file must export a default object with asynchronous `up` and `down` methods. 
+See the [example](src/database/migrations/00_initial.js) file.
 
-- To update the database, run: `npm run db:migrate-up <version>`
-- To rollback the database, run: `npm run db:migrate-down <version>`
+- To update the database, run: `npm run db:migrate up <version>`
+- To rollback the database, run: `npm run db:migrate down <version>`
 
-Where version is an optional param that must match the version number of a file. E.g. `npm run db:migrate-up 03` for 
+Where version is an optional param that must match the version number of a file. E.g. `npm run db:migrate up 03` for 
 `03_foo-bar.js`. If you do not specify a version number, the database will be updated to the latest version for 
 migrating up and to the last version for migrating down.
 
