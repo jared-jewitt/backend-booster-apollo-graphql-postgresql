@@ -2,9 +2,9 @@ version: "3.7"
 
 ####################### Services Definition #######################
 services:
-  server:
-    container_name: server
+  server-test:
     image: server:test
+    container_name: server
     build:
       context: .
       dockerfile: Dockerfile.server
@@ -14,13 +14,13 @@ services:
     environment:
       - PORT=5000
     depends_on:
-      - database
+      - database-test
     networks:
       - default
 
-  database:
-    container_name: database
+  database-test:
     image: database:test
+    container_name: database
     build:
       context: .
       dockerfile: Dockerfile.database
@@ -39,7 +39,7 @@ services:
       dockerfile: Dockerfile.server
       target: "db-migrate-up"
     depends_on:
-      - database
+      - database-test
     networks:
       - default
 
@@ -50,18 +50,18 @@ services:
       dockerfile: Dockerfile.server
       target: "db-migrate-down"
     depends_on:
-      - database
+      - database-test
     networks:
       - default
 
   database-seed:
+    image: database:seed
     build:
-      image: database:seed
       context: .
       dockerfile: Dockerfile.server
       target: "db-seed"
     depends_on:
-      - database
+      - database-test
     networks:
       - default
 
@@ -72,7 +72,7 @@ services:
       dockerfile: Dockerfile.server
       target: "db-wipe"
     depends_on:
-      - database
+      - database-test
     networks:
       - default
 
