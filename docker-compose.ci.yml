@@ -37,7 +37,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.server
-      target: "migrate-up"
+      target: "db-migrate-up"
     depends_on:
       - database
     networks:
@@ -48,7 +48,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.server
-      target: "migrate-down"
+      target: "db-migrate-down"
     depends_on:
       - database
     networks:
@@ -59,7 +59,7 @@ services:
       image: database:seed
       context: .
       dockerfile: Dockerfile.server
-      target: "seed"
+      target: "db-seed"
     depends_on:
       - database
     networks:
@@ -70,7 +70,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.server
-      target: "wipe"
+      target: "db-wipe"
     depends_on:
       - database
     networks:
