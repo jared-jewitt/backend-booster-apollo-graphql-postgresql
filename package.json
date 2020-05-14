@@ -8,7 +8,7 @@
   "scripts": {
     "build": "babel src --out-dir=dist",
     "start": "cross-env NODE_ENV=development nodemon --exec babel-node src/server.js",
-    "serve": "cross-env NODE_ENV=production npm run build && node dist/server.js",
+    "serve": "npm run build && cross-env NODE_ENV=production node dist/server.js",
     "db:migrate": "cross-env NODE_ENV=development babel-node src/database/scripts/migrate.js",
     "db:seed": "cross-env NODE_ENV=development babel-node src/database/scripts/seed.js",
     "db:wipe": "cross-env NODE_ENV=development babel-node src/database/scripts/wipe.js",
