@@ -1,12 +1,16 @@
+node_modules
+dist
+coverage
+*.env*
+!.env.example
+!.env.development.local
+!.env.test.local
+!.env.production.local
+
 # General
 .DS_Store
 .AppleDouble
 .LSOverride
-
-# Development
-.env.production
-/dist
-/node_modules
 
 # IDEs and editors
 /.idea
@@ -21,22 +25,3 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
-# Thumbnails
-._*
-
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk

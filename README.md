@@ -1,21 +1,21 @@
-# Portable Backend Boilerplate - GraphQL
+# Server Booster - GraphQL
 
-This codebase is a boilerplate for creating GraphQL applications. It is intended to be used as a module for 
-my [Launch pads](https://github.com/launch-pads). However, that being said, it can still be used completely on its own.
+This codebase is a boilerplate for a GraphQL server. It is intended to be used as a
+[Booster](https://github.com/jared-jewitt/booster-guidelines) for my [Launchpad](https://github.com/jared-jewitt/launch-pad). 
+However, that being said, it can still be used completely on its own - CI/CD and infrastructure come pre-configured.
 
-In order for a portable boilerplate to work with a Launch pad, it must abide by the following guidelines:
-> <https://github.com/portable-boilerplates/portable-boilerplate-guidelines>
+#### Requirements:
 
-This boilerplate contains the following development tooling:
+- [Docker](https://www.docker.com/) (Optional)
+- [Node](https://nodejs.org/en/) (Optional if Docker is used)
+- [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) (Windows users only)
+
+#### Features:
+
 - [ESLint](https://eslint.org/)
 - [Babel](https://babeljs.io/)
 - [Nodemon](https://nodemon.io/)
 - [Jest](https://jestjs.io/)
-
-#### Requirements (If not using Docker):
-
-- [Node](https://nodejs.org/en/)
-- [MongoDB](https://docs.mongodb.com/manual/installation/)
 
 #### Developers:
 
@@ -23,64 +23,50 @@ This boilerplate contains the following development tooling:
 
 ## Getting Started
 
-Run the app via either option below, then visit your server at `http://localhost:5000`
+Run the server via either option below, then visit it at `http://localhost:5000`
 
-##### **With Docker**
+**_Docker:_**
+ 
+ ```
+ make run
+ ```
 
-```
-docker-compose up
-```
-
-##### **Without Docker**
-
-1. Download and run [MongoDB](https://docs.mongodb.com/manual/installation/)
-2. Edit [.env.development](.env.development) and [.env.test](.env.test) to use the non-docker `DATABASE_URL`
+**_NPM:_**
 
 ```
 npm install
-npm run start
+npm start
 ```
 
 ## Commands
 
-> Note: To use these commands with Docker, run them like such: \
-> `docker-compose exec server npm run ...` (make sure the container is running).
+**_Docker:_**
 
-| Command                           | Description                                                                      |
-|-----------------------------------|----------------------------------------------------------------------------------|
-| npm run build                     | Builds the application                                                           |
-| npm run start                     | Runs the application locally with hot reloading on port 5000                     |
-| npm run serve                     | Builds the application then runs the application on port 5000                    |
-| npm run db:seed                   | Seeds the database with dummy data                                               |
-| npm run db:wipe                   | Purges all records from the database                                             |
-| npm run db:migrate up <version>   | Updates the database to the specified version (or latest version if unspecified) |
-| npm run db:migrate down <version> | Reverts the database to the specified version (or last version if unspecified)   |
-| npm run test                      | Runs all jest tests                                                              |
-| npm run test:update               | Updates jest snapshot files                                                      |
-| npm run test:coverage             | Runs all jest tests and displays a coverage report in the console                |
-| npm run lint                      | Identifies linting warnings/errors                                               |
-| npm run lint:fix                  | Fixes linting errors                                                             |
+| Command        | Description                                                         |
+|----------------|---------------------------------------------------------------------|
+| make run       | Launches the server                                                 |
+| make close     | Closes the server                                                   |
+| make purge     | Purges the server containers, images, networks, volumes             |
+| make workspace | Shells into the server to run one-off commands. e.g. `npm run test` |
 
-## Database Migrations
+**_NPM:_**
 
-Migrations are located in [src/database/migrations](src/database/migrations). To create a migration, use the following
-naming pattern: `[version]_[name].js`. The file must export a default object with asynchronous `up` and `down` methods. 
-See the [example](src/database/migrations/00_initial.js) file.
+| Command                     | Description                                                       |
+|-----------------------------|-------------------------------------------------------------------|
+| npm run build               | Builds the server                                                 |
+| npm run start               | Runs the server locally with hot reloading on port 3000           |
+| npm run serve               | Runs the built server on port 4000                                |
+| npm run test                | Runs all jest tests                                               |
+| npm run test:update         | Updates jest snapshot files                                       |
+| npm run test:coverage       | Runs all jest tests and displays a coverage report in the console |
+| npm run lint                | Identifies linting warnings/errors                                |
+| npm run lint:fix            | Fixes linting errors                                              |
+| npm run analyze-bundle-size | Generates and serves bundle size stats on port 4200               |
 
-- To update the database, run: `npm run db:migrate up <version>`
-- To rollback the database, run: `npm run db:migrate down <version>`
+## Deployment
 
-Where version is an optional param that must match the version number of a file. E.g. `npm run db:migrate up 03` for 
-`03_foo-bar.js`. If you do not specify a version number, the database will be updated to the latest version for 
-migrating up and to the last version for migrating down.
-
-## Environment Variables
-
-Please note the [.env.development](.env.development) and [.env.test](.env.test) files. These values are only 
-used when running the app locally (which is why they're committed to git). If you are deploying this app, it is expected
-you use a `.env.production` file (which is git ignored), or specify env vars on the hosted server. The package 
-[Custom-Env](https://www.npmjs.com/package/custom-env) is being used to determine which env file loads based on the 
-`NODE_ENV`.
+[Instructions here](DEPLOYMENT.md).
 
 ## License
-Code released under the [Apache License, Version 2.0](LICENSE).
+
+Code released under the [MIT License](LICENSE).
