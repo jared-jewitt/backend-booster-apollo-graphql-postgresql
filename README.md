@@ -51,17 +51,16 @@ npm start
 
 **_NPM:_**
 
-| Command                     | Description                                                       |
-|-----------------------------|-------------------------------------------------------------------|
-| npm run build               | Builds the server                                                 |
-| npm run start               | Runs the server locally with hot reloading on port 5000           |
-| npm run serve               | Runs the built server on port 5000                                |
-| npm run test                | Runs all jest tests                                               |
-| npm run test:update         | Updates jest snapshot files                                       |
-| npm run test:coverage       | Runs all jest tests and displays a coverage report in the console |
-| npm run lint                | Identifies linting warnings/errors                                |
-| npm run lint:fix            | Fixes linting errors                                              |
-| npm run analyze-bundle-size | Generates and serves bundle size stats on port 4200               |
+| Command               | Description                                                       |
+|-----------------------|-------------------------------------------------------------------|
+| npm run build         | Builds the server                                                 |
+| npm run start         | Runs the server locally with hot reloading on port 5000           |
+| npm run serve         | Runs the built server on port 5000                                |
+| npm run test          | Runs all jest tests                                               |
+| npm run test:update   | Updates jest snapshot files                                       |
+| npm run test:coverage | Runs all jest tests and displays a coverage report in the console |
+| npm run lint          | Identifies linting warnings/errors                                |
+| npm run lint:fix      | Fixes linting errors                                              |
 
 ## Deployment
 
