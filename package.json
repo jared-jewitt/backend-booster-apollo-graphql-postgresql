@@ -6,9 +6,9 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "build": "babel src --out-dir=dist",
+    "build": "babel src --out-dir=build",
     "start": "cross-env NODE_ENV=development nodemon --exec babel-node src/index.js",
-    "serve": "cross-env NODE_ENV=production node dist/index.js",
+    "serve": "cross-env NODE_ENV=production node build/index.js",
     "test": "jest",
     "test:update": "jest --updateSnapshot",
     "test:coverage": "jest --coverage",
