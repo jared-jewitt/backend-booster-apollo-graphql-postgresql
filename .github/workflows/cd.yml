@@ -8,35 +8,65 @@ on:
       - master
 
 jobs:
-  cd:
-    name: CD
+  push:
+    name: Push
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build + Deploy
-        uses: docker/build-push-action@v1
-        with:
-          username: ${{ secrets.GCR_USERNAME }}
-          password: ${{ secrets.GCR_PASSWORD }}
-          registry: ${{ secrets.GCR_REGISTRY }}
-          repository: ${{ secrets.GCR_REPOSITORY }}
-          dockerfile: Dockerfile
-          target: cd
-          push: true
-          tag_with_ref: true
-          tag_with_sha: true
+      - name: Login
+        run: echo "${{ secrets.SERVICE_ACCOUNT_KEY }}" | base64 --decode | docker login -u _json_key --password-stdin gcr.io
 
-      - name: Apply
-        working-directory: .infrastructure
+      - name: Build, tag, and push image for development
+        if: ${{ github.ref == 'refs/heads/development' }}
         run: |
-          echo "::set-env name=BRANCH::${GITHUB_REF#refs/heads/}"
-          echo "::set-env name=TF_WORKSPACE::${BRANCH}"
-          terraform init \
-            -input=false \
-            -backend-config="token=${{ secrets.TERRAFORM_CLOUD_API_TOKEN }}" \
-            -backend-config="organization=${{ secrets.TERRAFORM_CLOUD_ORGANIZATION }}"
-          terraform apply \
-            -input=false \
-            -auto=approve
+          docker build --target=cd --tag=server:cd .
+          docker tag server:cd gcr.io/"${{ secrets.PROJECT_ID }}"/server:development
+          docker push gcr.io/"${{ secrets.PROJECT_ID }}"/server:development
+
+      - name: Pull, re-tag, and push image for staging
+        if: ${{ github.ref == 'refs/heads/staging' }}
+        run: |
+          docker pull gcr.io/"${{ secrets.PROJECT_ID }}"/server:development
+          docker tag gcr.io/"${{ secrets.PROJECT_ID }}"/server:development gcr.io/"${{ secrets.PROJECT_ID }}"/server:staging
+          docker push gcr.io/"${{ secrets.PROJECT_ID }}"/server:staging
+
+      - name: Pull, re-tag, and push image for master
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: |
+          docker pull gcr.io/"${{ secrets.PROJECT_ID }}"/server:staging
+          docker tag gcr.io/"${{ secrets.PROJECT_ID }}"/server:staging gcr.io/"${{ secrets.PROJECT_ID }}"/server:master
+          docker push gcr.io/"${{ secrets.PROJECT_ID }}"/server:master
+
+  apply:
+    name: Apply
+    runs-on: ubuntu-latest
+    needs: [push]
+    defaults:
+      run:
+        working-directory: infrastructure
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set enviornment variables
+        run: |
+          echo ::set-env name=TF_WORKSPACE::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')
+          echo ::set-env name=TF_IN_AUTOMATION::true
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.13.0
+          cli_config_credentials_hostname: "app.terraform.io"
+          cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_API_TOKEN }}
+
+      - name: Terraform init
+        run: terraform init -backend-config="organization=${{ secrets.TERRAFORM_CLOUD_ORGANIZATION }}"
+
+      - name: Terraform apply
+        run: terraform apply -auto-approve

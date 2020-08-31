@@ -1,73 +1,75 @@
 # Deployment
 
-This repository uses a CI/CD flow via GitHub Actions. Deploying the app is as simple as making a pull request and 
-merging it. That being said, there are still some pre-requisites to fulfill before running your first deployment. Please
-follow the steps below in order.
+This repository uses an immutable CI/CD flow via GitHub Actions. Deploying the app is as simple as making a pull request
+and merging it. That being said, there are still some pre-requisites to fulfill before running your first deployment.
+Please follow the steps below in order.
 
 #### Requirements:
 
 - [Google Cloud Console Account](https://console.cloud.google.com)
-- [Terraform Cloud Account](https://app.terraform.io/signup/account)
 - [GitHub Account](https://github.com/join)
+- [Terraform Cloud Account](https://app.terraform.io/signup/account)
 
 ---
 
 #### Google Cloud Console
 
-1. [Create a new project](https://console.cloud.google.com/projectcreate)
+1. [Create a new project name and id](https://console.cloud.google.com/projectcreate).
 
-2. [Create a new Service Account with the following roles](https://console.cloud.google.com/iam-admin/serviceaccounts/create): 
-    - Service account User
+2. [Enable the Google Container Registry API](https://console.cloud.google.com/apis/library/containerregistry.googleapis.com).
+
+3. [Enable the Google Cloud Run API](https://console.developers.google.com/apis/library/run.googleapis.com).
+
+4. [Create a new Service Account with the following roles](https://console.cloud.google.com/iam-admin/serviceaccounts/create):
+    - Service Account User
     - Cloud Run Admin
     - Storage Admin
+   
+    (Skip step 3 and click **"DONE"**)
 
-3. You should now see your newly created Service Account in the table. Click on it, then click the "ADD KEY" dropdown, 
-and create a new JSON key.
+5. You should now see your newly created Service Account in the table. Click on it, then click the "**ADD KEY**" 
+dropdown, and create a new JSON key.
 
-4. Base64 encode the key that was just downloaded to your computer: `cat key.json | base64`
+6. Base64 encode the key that was just downloaded to your computer: `cat key.json | base64`.
 
-5. Copy the encoded string and keep it handy for a later step. **DO NOT** show this to anyone or check this into source
+7. Copy the encoded string and keep it handy for a later step. **DO NOT** show this to anyone or check this into source
 control.
- 
- ---
-    
+
+---
+
 #### Terraform Cloud
 
-1. [Create a new Organization](https://app.terraform.io/app/organizations/new)
+1. [Create an API token](https://app.terraform.io/app/settings/tokens). Copy this for a later step. **DO NOT** show 
+this to anyone or check this into source control.
 
-2. [Create an API token](https://app.terraform.io/app/settings/tokens). Keep it handy for a later step. 
-**DO NOT** show this to anyone or check this into source control.
+2. [Create a new Organization](https://app.terraform.io/app/organizations/new).
 
-3. Create 3 workspaces and select "CLI-driven workflow" each time you create one. The workspace names must match the following:
-    - `server-development`
-    - `server-staging`
-    - `server-master`
+3. Create 3 workspaces for the organization - one for each environment (development, staging, master).
 
-4. Under each workspace, add the following variables:
+    Use the settings below when creating each workspace:
+
+    - Choose Type: **"CLI-driven workflow"**
+    - Configure settings:
+        - Workspace Name: `<server-development|server-staging|server-master>`
+
+4. For each workspace, select `Settings / General`, and set the Terraform version to `0.13.0` and click **Save settings**.
+
+5. For each workspace, select `Variables`, and add the following variables under `Terraform Variables`:
     
-    ```hcl
-    # ☐ HCL ✅Sensitive 
-    project_id = "<project_id>"
+    ```
+    # ☐ HCL ☐ Sensitive 
+    project_id = <project_id>
     
-    # ☐ HCL ✅Sensitive 
-    service_account_key = "<service_account_key>"
+    # ☐ HCL ✅ Sensitive 
+    service_account_key = <service_account_key>
     
     # ☐ HCL ☐ Sensitive 
-    region = "us-central1"
+    service_name = <server-development|server-staging|server-master>
     
     # ☐ HCL ☐ Sensitive 
-    cloud_run_service_name = "server-<development|staging|master>"
-    
-    # ☐ HCL ☐ Sensitive 
-    registry = "gcr.io"
-    
-    # ☐ HCL ✅Sensitive
-    repository = "<project_id>/server"
-    
-    # ☐ HCL ☐ Sensitive 
-    image_tag = "<development|staging|master>"
-    
-    # ✅HCL ✅Sensitive
+    image_tag = <development|staging|master>
+   
+    # ✅ HCL ✅ Sensitive
     # These are your application environment variables. Check the .env.example file for reference.
     # Note: It's a good practice to use different values for each environment.
     container_environment_variables = {
@@ -79,15 +81,33 @@ control.
 
 ---
 
-#### GitHub Actions
+#### GitHub
 
-1. Navigate to your GitHub repository. Select `Settings / Secrets`. Create the following secrets:
+1. Navigate to your GitHub repository and create the following branches:
+    - `master`
+    - `staging`
+    - `development`
+    
+2. Select `Settings / Secrets`. Create the following secrets:
 
-    ```hcl
-    TERRAFORM_CLOUD_API_TOKEN = "<token>"
-    TERRAFORM_CLOUD_ORGANIZATION = "<organization_name>"
-    GCR_USERNAME = "_json_key"
-    GCR_PASSWORD = "<service_account_key>"
-    GCR_REGISTRY = "gcr.io"
-    GCR_REPOSITORY = "<project_id>/server"
     ```
+    TERRAFORM_CLOUD_API_TOKEN = <token>
+    TERRAFORM_CLOUD_ORGANIZATION = <organization>
+    SERVICE_ACCOUNT_KEY = <service_account_key>
+    PROJECT_ID = <project_id>
+    ```
+
+3. Create a new feature branch, write some code, push it, and make a pull request to `development`. Merging 
+   this will trigger a build and deploy. The URL of your deployed application can be found in the GitHub Action logs.
+   Once you are satisfied with the state of your application in the development environment, you can continue the
+   [git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) process via making another 
+   pull request from `development -> staging`. And again, once you are satisfied with the application state in the 
+   staging environment, make another pull request from `staging -> master`.
+
+   **Please note**: [Terraform plan](https://www.terraform.io/docs/commands/plan.html) will fail for your first
+   pull request to `development`, `staging`, and `master`. This is because Terraform is looking for an image to use 
+   for the plan. This image doesn't get built and pushed until merge. That being said, it is still fine to merge your 
+   PR in this state. The application will still deploy on merge since the image gets created and pushed right before
+   [Terraform Apply](https://www.terraform.io/docs/commands/apply.html). Subsequent pull requests to these branches
+   will now have an image tag to reference, and therefore will not experience this edge case.
+

@@ -54,8 +54,8 @@ npm start
 | Command                     | Description                                                       |
 |-----------------------------|-------------------------------------------------------------------|
 | npm run build               | Builds the server                                                 |
-| npm run start               | Runs the server locally with hot reloading on port 3000           |
-| npm run serve               | Runs the built server on port 4000                                |
+| npm run start               | Runs the server locally with hot reloading on port 5000           |
+| npm run serve               | Runs the built server on port 5000                                |
 | npm run test                | Runs all jest tests                                               |
 | npm run test:update         | Updates jest snapshot files                                       |
 | npm run test:coverage       | Runs all jest tests and displays a coverage report in the console |
