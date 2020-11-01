@@ -1,7 +1,7 @@
 {
   "name": "backend-booster-graphql-postgresql",
   "version": "1.0.0",
-  "description": "Boilerplate for a GraphQL + PostgreSQL backend",
+  "description": "GraphQL + PostgreSQL boilerplate",
   "license": "MIT",
   "scripts": {
     "build": "tsc",

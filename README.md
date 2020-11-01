@@ -1,6 +1,6 @@
 # Backend Booster - GraphQL + PostgreSQL
 
-This codebase is a boilerplate for a GraphQL + PostgreSQL backend. It is intended to be used as a
+This codebase is a GraphQL + PostgreSQL boilerplate. It is intended to be used as a
 [Booster](https://github.com/jared-jewitt/booster-guidelines) for my [Launchpad](https://github.com/jared-jewitt/launchpad).
 However, that being said, it can still be used completely on its own - CI/CD and infrastructure (IaC) come pre-configured.
 
