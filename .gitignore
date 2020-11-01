@@ -3,9 +3,6 @@ build
 coverage
 *.env*
 !.env.example
-!.env.development.local
-!.env.test.local
-!.env.production.local
 
 # General
 .DS_Store
@@ -13,15 +10,11 @@ coverage
 .LSOverride
 
 # IDEs and editors
-/.idea
+.idea
+.vscode
 .project
 .classpath
-.c9/
+.settings
+.c9
 *.launch
-.settings/
 *.sublime-workspace
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json

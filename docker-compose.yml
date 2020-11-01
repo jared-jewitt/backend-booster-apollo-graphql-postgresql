@@ -7,16 +7,35 @@ services:
     container_name: server
     build:
       context: .
-      dockerfile: Dockerfile
-      target: cd
+      dockerfile: Dockerfile.server
+      target: "local"
     volumes:
       - "./:/usr/src/app"
       - "/usr/src/app/node_modules"
     ports:
       - 5000:5000
     environment:
-      - PORT=5000
       - JWT_SECRET=mysecret
+      - DATABASE_URL=postgres://admin:password@database:5432/local
+    depends_on:
+      - database
+    networks:
+      - default
+
+  database:
+    image: database:local
+    container_name: database
+    build:
+      context: .
+      dockerfile: Dockerfile.database
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_DB=local
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
     networks:
       - default
 
@@ -24,3 +43,8 @@ services:
 networks:
   default:
     driver: bridge
+
+####################### Volumes Definition ########################
+volumes:
+  db-data:
+    driver: local

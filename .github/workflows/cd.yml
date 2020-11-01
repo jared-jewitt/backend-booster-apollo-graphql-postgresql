@@ -8,8 +8,8 @@ on:
       - master
 
 jobs:
-  push:
-    name: Push
+  docker:
+    name: Docker
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -21,31 +21,31 @@ jobs:
       - name: Login
         run: echo "${{ secrets.SERVICE_ACCOUNT_KEY }}" | base64 --decode | docker login -u _json_key --password-stdin gcr.io
 
-      - name: Build, tag, and push image for development
+      - name: Build, tag, and push image for development environment
         if: ${{ github.ref == 'refs/heads/development' }}
         run: |
           docker build --target=cd --tag=server:cd .
           docker tag server:cd gcr.io/"${{ secrets.PROJECT_ID }}"/server:development
           docker push gcr.io/"${{ secrets.PROJECT_ID }}"/server:development
 
-      - name: Pull, re-tag, and push image for staging
+      - name: Pull, re-tag, and push image for staging environment
         if: ${{ github.ref == 'refs/heads/staging' }}
         run: |
           docker pull gcr.io/"${{ secrets.PROJECT_ID }}"/server:development
           docker tag gcr.io/"${{ secrets.PROJECT_ID }}"/server:development gcr.io/"${{ secrets.PROJECT_ID }}"/server:staging
           docker push gcr.io/"${{ secrets.PROJECT_ID }}"/server:staging
 
-      - name: Pull, re-tag, and push image for master
+      - name: Pull, re-tag, and push image for master environment
         if: ${{ github.ref == 'refs/heads/master' }}
         run: |
           docker pull gcr.io/"${{ secrets.PROJECT_ID }}"/server:staging
           docker tag gcr.io/"${{ secrets.PROJECT_ID }}"/server:staging gcr.io/"${{ secrets.PROJECT_ID }}"/server:master
           docker push gcr.io/"${{ secrets.PROJECT_ID }}"/server:master
 
-  apply:
-    name: Apply
+  terraform:
+    name: Terraform
     runs-on: ubuntu-latest
-    needs: [push]
+    needs: [docker]
     defaults:
       run:
         working-directory: infrastructure
@@ -53,7 +53,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set enviornment variables
+      - name: Setup enviornment variables
         run: |
           echo ::set-env name=TF_WORKSPACE::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')
           echo ::set-env name=TF_IN_AUTOMATION::true
@@ -65,8 +65,8 @@ jobs:
           cli_config_credentials_hostname: app.terraform.io
           cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_API_TOKEN }}
 
-      - name: Terraform init
+      - name: Init
         run: terraform init -backend-config="organization=${{ secrets.TERRAFORM_CLOUD_ORGANIZATION }}"
 
-      - name: Terraform apply
+      - name: Apply
         run: terraform apply -auto-approve

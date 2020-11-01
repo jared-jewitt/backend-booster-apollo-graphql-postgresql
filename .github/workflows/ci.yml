@@ -8,8 +8,8 @@ on:
       - master
 
 jobs:
-  test:
-    name: Test
+  docker:
+    name: Docker
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -18,13 +18,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Run tests
+      - name: Test
         run: |
           docker build --target=ci --tag=server:ci .
           docker run server:ci
 
-  plan:
-    name: Plan
+  terraform:
+    name: Terraform
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -33,7 +33,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set enviornment variables
+      - name: Setup enviornment variables
         run: |
           echo ::set-env name=TF_WORKSPACE::${{ github.event.pull_request.base.ref }}
           echo ::set-env name=TF_IN_AUTOMATION::true
@@ -45,20 +45,20 @@ jobs:
           cli_config_credentials_hostname: app.terraform.io
           cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_API_TOKEN }}
 
-      - name: Terraform format
+      - name: Format
         id: fmt
         continue-on-error: true
         run: terraform fmt
 
-      - name: Terraform init
+      - name: Init
         id: init
         run: terraform init -backend-config="organization=${{ secrets.TERRAFORM_CLOUD_ORGANIZATION }}"
 
-      - name: Terraform validate
+      - name: Validate
         id: validate
         run: terraform validate
 
-      - name: Terraform plan
+      - name: Plan
         id: plan
         continue-on-error: true
         run: terraform plan -no-color

@@ -14,4 +14,4 @@ purge:
 
 workspace:
 	@echo "Shelling into the server..."
-	@docker-compose exec server bash
+	@docker-compose exec server sh
