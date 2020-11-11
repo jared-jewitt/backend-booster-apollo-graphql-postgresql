@@ -1,6 +1,6 @@
 import { createConnection } from "typeorm";
 
-import { User, Post } from "../app/entities";
+import { User, Post } from "@/entities";
 
 (async (): Promise<void> => {
   try {

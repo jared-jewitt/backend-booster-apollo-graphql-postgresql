@@ -3,8 +3,8 @@ import { UserInputError } from "apollo-server";
 import { Arg, Mutation, Resolver } from "type-graphql";
 import { getRepository, Repository } from "typeorm";
 
-import { generateJWTToken } from "../utils";
-import { User, LoginInput, RegisterInput, LoginOutput, RegisterOutput } from "../entities";
+import { generateJWTToken } from "@/utils";
+import { User, LoginInput, RegisterInput, LoginOutput, RegisterOutput } from "@/entities";
 
 @Resolver(() => User)
 export default class UserResolver {

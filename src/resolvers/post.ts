@@ -2,9 +2,9 @@ import { ForbiddenError, ApolloError } from "apollo-server";
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware, ID } from "type-graphql";
 import { getRepository, Repository } from "typeorm";
 
-import { ErrorCode } from "../constants";
-import { AuthMiddleWare } from "../middlewares";
-import { Post, User } from "../entities";
+import { Error } from "@/constants";
+import { AuthMiddleWare } from "@/middlewares";
+import { Post, User } from "@/entities";
 
 @Resolver(() => Post)
 export default class PostResolver {
@@ -40,7 +40,7 @@ export default class PostResolver {
   ): Promise<string> {
     const post = await this.repository.findOne(id);
     if (!post) {
-      throw new ApolloError(`No post was found with id: ${id}`, ErrorCode.NotFound);
+      throw new ApolloError(`No post was found with id: ${id}`, Error.NotFound);
     } else if (user.id === post.userId) {
       await this.repository.remove(post);
       return "Post deleted successfully";

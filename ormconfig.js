@@ -5,12 +5,12 @@ module.exports = {
   synchronize: process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test",
   migrationsRun: process.env.NODE_ENV === "production",
   migrationsTableName: "migrations",
-  entities: ["app/entities/**/*.ts"],
-  migrations: ["app/migrations/**/*.ts"],
-  subscribers: ["app/subscribers/**/*.ts"],
+  entities: ["src/entities/**/*.ts"],
+  migrations: ["src/migrations/**/*.ts"],
+  subscribers: ["src/subscribers/**/*.ts"],
   cli: {
-    entitiesDir: "app/entities",
-    migrationsDir: "app/migrations",
-    subscribersDir: "app/subscribers",
+    entitiesDir: "src/entities",
+    migrationsDir: "src/migrations",
+    subscribersDir: "src/subscribers",
   },
 };

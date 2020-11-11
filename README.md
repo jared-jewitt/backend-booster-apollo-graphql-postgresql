@@ -40,7 +40,7 @@ make run
 
 ```
 npm install
-npm start
+npm run dev
 ```
 
 ## Commands
@@ -56,16 +56,15 @@ npm start
 
 **_NPM:_**
 
-| Command                                                               | Description                                     |
-| --------------------------------------------------------------------- | ----------------------------------------------- |
-| npm run build                                                         | Builds the server                               |
-| npm run serve                                                         | Serves the built server on port 5000            |
-| npm run start                                                         | Runs the server with hot reloading on port 5000 |
-| npm run test                                                          | Runs the suite of Jest tests                    |
-| npm run lint                                                          | Runs Prettier, and ESLint formatters            |
-| npm run db:seed                                                       | Seeds the database with dummy data              |
-| npm run db:wipe                                                       | Purges all database tables                      |
-| npm run db:migrate [generate&#124;create&#124;up&#124;down&#124;show] | Performs a specified database migration action  |
+| Command                                                               | Description                                                   |
+| --------------------------------------------------------------------- | ------------------------------------------------------------- |
+| npm run prod                                                          | Builds and runs the server on $PORT &#124;&#124; 5000         |
+| npm run dev                                                           | Runs the server with hot reloading on $PORT &#124;&#124; 5000 |
+| npm run test                                                          | Runs the suite of Jest tests                                  |
+| npm run lint                                                          | Runs Prettier, and ESLint formatters                          |
+| npm run db:seed                                                       | Seeds the database with dummy data                            |
+| npm run db:wipe                                                       | Purges all database tables                                    |
+| npm run db:migrate [generate&#124;create&#124;up&#124;down&#124;show] | Performs a specified database migration action                |
 
 ## Deployment
 

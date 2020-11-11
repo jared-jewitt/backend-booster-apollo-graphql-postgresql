@@ -1,6 +1,6 @@
 module.exports = {
-  preset: "ts-jest",
   testEnvironment: "node",
-  setupFiles: ["<rootDir>/jest.setup.js"],
-  testPathIgnorePatterns: ["<rootDir>/node_modules/"],
+  moduleNameMapper: {
+    "\\@/(.*)$": "<rootDir>/src/$1",
+  },
 };

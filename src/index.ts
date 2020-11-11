@@ -3,8 +3,8 @@ import { ApolloServer } from "apollo-server";
 import { createConnection } from "typeorm";
 import { buildSchema } from "type-graphql";
 
-import { IContext, getUserContext } from "./context";
-import { UserResolver, PostResolver } from "./resolvers";
+import { IContext, getUserContext } from "@/context";
+import { UserResolver, PostResolver } from "@/resolvers";
 
 (async (): Promise<void> => {
   try {

@@ -1,17 +1,23 @@
 {
-  "include": ["app/**/*", "tests/**/*", "scripts/**/*", "typings/*.d.ts"],
-  "exclude": ["node_modules", "build", "coverage"],
+  "include": ["src/**/*", "tests/**/*", "scripts/**/*", "typings/*.d.ts"],
   "compilerOptions": {
-    "outDir": "build",
-    "module": "commonjs",
-    "target": "es2018",
-    "moduleResolution": "node",
-    "allowJs": true,
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    "target": "ES6",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { ResolverData } from "type-graphql";
 
-import { IContext } from "../../../app/context";
-import { AuthMiddleWare } from "../../../app/middlewares";
+import { IContext } from "@/context";
+import { AuthMiddleWare } from "@/middlewares";
 
 describe("AuthMiddleware", () => {
   it("throws an authentication error", () => {

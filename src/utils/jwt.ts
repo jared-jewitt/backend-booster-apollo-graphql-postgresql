@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { AuthenticationError } from "apollo-server";
 
-import { User } from "../entities";
+import { User } from "@/entities";
 
 export const generateJWTToken = (user: Omit<User, "password">): string => {
   return jwt.sign(
