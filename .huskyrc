@@ -1,5 +1,5 @@
 {
   "hooks": {
-    "pre-commit": "prettier --check \"**/*.{js,ts}\" && eslint \"**/*.{js,ts}\""
+    "pre-commit": "prettier --check \"**/*.{ts,js}\" && eslint \"**/*.{ts,js}\""
   }
 }
