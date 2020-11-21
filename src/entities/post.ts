@@ -1,6 +1,5 @@
 import { Field, ObjectType, ID } from "type-graphql";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-
 import { User } from ".";
 
 @ObjectType({ description: "The `Post` type represents a single post record" })

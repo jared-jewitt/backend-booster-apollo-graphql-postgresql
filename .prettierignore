@@ -1,1 +1,8 @@
-node_modules
+# Ignore everything
+/*
+
+# Except these things...
+!src
+!scripts
+!tests
+!typings

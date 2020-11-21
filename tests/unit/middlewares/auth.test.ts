@@ -1,5 +1,4 @@
 import { ResolverData } from "type-graphql";
-
 import { IContext } from "@/context";
 import { AuthMiddleWare } from "@/middlewares";
 

@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import { UserInputError } from "apollo-server";
 import { Arg, Mutation, Resolver } from "type-graphql";
 import { getRepository, Repository } from "typeorm";
-
 import { generateJWTToken } from "@/utils";
 import { User, LoginInput, RegisterInput, LoginOutput, RegisterOutput } from "@/entities";
 

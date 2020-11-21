@@ -3,7 +3,7 @@ data "docker_registry_image" "image" {
 }
 
 resource "google_cloud_run_service" "server" {
-  name = var.service_name
+  name     = var.service_name
   location = var.region
 
   template {
@@ -13,7 +13,7 @@ resource "google_cloud_run_service" "server" {
         dynamic "env" {
           for_each = var.container_environment_variables
           content {
-            name = env.key
+            name  = env.key
             value = env.value
           }
         }
@@ -22,15 +22,15 @@ resource "google_cloud_run_service" "server" {
   }
 
   traffic {
-    percent = 100
+    percent         = 100
     latest_revision = true
   }
 }
 
 resource "google_cloud_run_service_iam_member" "allUsers" {
   location = google_cloud_run_service.server.location
-  project = google_cloud_run_service.server.project
-  service = google_cloud_run_service.server.name
-  role = "roles/run.invoker"
-  member = "allUsers"
+  project  = google_cloud_run_service.server.project
+  service  = google_cloud_run_service.server.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
 }

@@ -1,7 +1,6 @@
 import { ForbiddenError, ApolloError } from "apollo-server";
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware, ID } from "type-graphql";
 import { getRepository, Repository } from "typeorm";
-
 import { Error } from "@/constants";
 import { AuthMiddleWare } from "@/middlewares";
 import { Post, User } from "@/entities";

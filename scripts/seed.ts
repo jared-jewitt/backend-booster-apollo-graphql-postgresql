@@ -1,15 +1,14 @@
 import { createConnection } from "typeorm";
-
 import { User, Post } from "@/entities";
 
 (async (): Promise<void> => {
   try {
     const database = await createConnection();
-
     const userRepository = database.getRepository(User);
     const postRepository = database.getRepository(Post);
 
     await database.synchronize();
+
     const user = await userRepository.save({
       username: "username",
       password: "password",

@@ -1,7 +1,6 @@
 import { ObjectType, InputType, Field, ID } from "type-graphql";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Length, MaxLength } from "class-validator";
-
 import { Post } from ".";
 
 @ObjectType({ description: "The `User` type represents a single user record" })

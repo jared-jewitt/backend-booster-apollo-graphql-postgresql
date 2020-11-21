@@ -3,5 +3,6 @@
 
 # Except these things...
 !src
+!scripts
 !tests
 !typings

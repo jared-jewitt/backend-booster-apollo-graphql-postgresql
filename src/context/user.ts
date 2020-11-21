@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-
 import { verifyJWTToken } from "@/utils";
 import { User } from "@/entities";
 
