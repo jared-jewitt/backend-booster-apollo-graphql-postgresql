@@ -12,21 +12,21 @@ However, that being said, it can still be used completely on its own - CI/CD and
 
 #### Features:
 
-- [TypeGraphQL](https://typegraphql.com/)
-- [TypeORM](https://typeorm.io/)
-- [Apollo Server](https://www.apollographql.com/docs/apollo-server/)
-- [JWT](https://jwt.io/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Prettier](https://prettier.io/)
-- [ESLint](https://eslint.org/)
-- [Husky](https://github.com/typicode/husky)
-- [Jest](https://jestjs.io/)
+- 👨‍🚀 Apollo Server 2
+- ⛑️ Type safety using TypeScript
+- 🤖 TypeGraphQL + TypeORM for shared schemas and entities
+- 🔒 JWT for client-server authentication
+- 🌎 Path aliasing for streamlined imports
+- 🌈 Prettier for consistent code style
+- 👀 Lint your code with ESLint
+- 🐺 Husky + lint-staged for code quality assurance
+- 🧪 Jest for tests
 
 #### Developers:
 
 - [Jared Jewitt](https://jared-jewitt.github.io/)
 
-## Getting Started
+## 🏃 Getting Started
 
 Run the backend via either option below, then visit the server at `http://localhost:5000`
 
@@ -43,7 +43,7 @@ npm install
 npm run dev
 ```
 
-## Commands
+## ⌨️ Commands
 
 **_Docker:_**
 
@@ -66,10 +66,10 @@ npm run dev
 | npm run db:wipe                                                       | Purges all database tables                                    |
 | npm run db:migrate [generate&#124;create&#124;up&#124;down&#124;show] | Performs a specified database migration action                |
 
-## Deployment
+## 🚀 Deployment
 
 [Instructions here](DEPLOYMENT.md).
 
-## License
+## ⚖️ License
 
 Code released under the [MIT License](LICENSE).
