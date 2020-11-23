@@ -14,7 +14,7 @@ However, that being said, it can still be used completely on its own - CI/CD and
 
 - 👨‍🚀 Apollo Server 2
 - ⛑️ Type safety using TypeScript
-- 🤖 TypeGraphQL + TypeORM for shared schemas and entities
+- 🤖 TypeGraphQL + TypeORM for shared schema and entity types
 - 🔒 JWT for client-server authentication
 - 🌎 Path aliasing for streamlined imports
 - 🌈 Prettier for consistent code style
