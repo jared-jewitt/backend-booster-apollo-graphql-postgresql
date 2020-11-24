@@ -1,1 +1,1 @@
-export { default as AuthMiddleWare } from "./auth";
+export { default as AuthMiddleWare } from "@/middlewares/auth";
