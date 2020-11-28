@@ -13,7 +13,7 @@ However, that being said, it can still be used completely on its own - CI/CD and
 #### Features:
 
 - 👨‍🚀 Apollo Server 2
-- ⛑️ Type safety using TypeScript
+- ⛑️ Type safety via TypeScript
 - 🤖 TypeGraphQL + TypeORM for shared schema and entity types
 - 🔒 JWT for client-server authentication
 - 🌎 Path aliasing for streamlined imports
