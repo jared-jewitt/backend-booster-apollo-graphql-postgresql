@@ -1,0 +1,34 @@
+version: "3.9"
+
+# Base Services Definition
+services:
+  server:
+    container_name: ${COMPOSE_PROJECT_NAME}_server
+    build:
+      context: ..
+    volumes:
+      - "../:/usr/src/app"
+      - "/usr/src/app/node_modules"
+    depends_on:
+      - database
+    networks:
+      - default
+
+  database:
+    container_name: ${COMPOSE_PROJECT_NAME}_database
+    build:
+      context: ..
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    networks:
+      - default
+
+# Base Networks Definition
+networks:
+  default:
+    driver: bridge
+
+# Base Volumes Definition
+volumes:
+  db-data:
+    driver: local

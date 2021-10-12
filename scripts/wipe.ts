@@ -1,13 +1,15 @@
-import { createConnection } from "typeorm";
+import isDocker from "is-docker";
+import dotenv from "dotenv";
+import { createConnection as createDatabaseConnection } from "typeorm";
+
+if (!isDocker()) {
+  dotenv.config({ path: "./.env.localhost.development" });
+}
 
 (async (): Promise<void> => {
-  try {
-    const database = await createConnection();
+  const database = await createDatabaseConnection("wipe");
 
-    await database.dropDatabase();
+  await database.close();
 
-    console.log("Database wiped!");
-  } catch (e) {
-    console.error(e);
-  }
-})();
+  console.log("Database wiped!");
+})().catch((e) => console.error(e));

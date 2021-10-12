@@ -1,16 +1,63 @@
-module.exports = {
+const path = require("path");
+
+const baseOptions = {
   type: "postgres",
-  url: process.env.DATABASE_URL,
-  logging: process.env.NODE_ENV === "development",
-  synchronize: process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test",
-  migrationsRun: process.env.NODE_ENV === "production",
   migrationsTableName: "migrations",
-  entities: ["src/entities/**/*.ts"],
-  migrations: ["src/migrations/**/*.ts"],
-  subscribers: ["src/subscribers/**/*.ts"],
+  host: process.env.DATABASE_HOST,
+  port: parseInt(process.env.DATABASE_PORT),
+  username: process.env.DATABASE_USERNAME,
+  password: process.env.DATABASE_PASSWORD,
+  database: {
+    "production": process.env.IN_CLOUD_RUN ? process.env.DATABASE_NAME : "prod",
+    "development": "dev",
+    "test": "test",
+  }[process.env.NODE_ENV || "development"],
+};
+
+const pathOptions = {
+  migrations: [path.join(__dirname, "migrations/**/*.ts")],
+  entities: [path.join(__dirname, "src/entities/**/*.entity.ts")],
   cli: {
-    entitiesDir: "src/entities",
-    migrationsDir: "src/migrations",
-    subscribersDir: "src/subscribers",
+    migrationsDir: path.join(__dirname, "migrations"),
+    entitiesDir: path.join(__dirname, "src/entities"),
   },
 };
+
+module.exports = [
+  {
+    name: "default",
+    logging: process.env.NODE_ENV === "development",
+    dropSchema: process.env.NODE_ENV === "test",
+    synchronize: process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test",
+    migrationsRun: false,
+    ...baseOptions,
+    ...(process.env.NODE_ENV === "production" ? {} : pathOptions)
+  },
+  {
+    name: "seed",
+    logging: true,
+    dropSchema: true,
+    synchronize: true,
+    migrationsRun: false,
+    ...baseOptions,
+    ...pathOptions,
+  },
+  {
+    name: "wipe",
+    logging: true,
+    dropSchema: true,
+    synchronize: false,
+    migrationsRun: false,
+    ...baseOptions,
+    ...pathOptions,
+  },
+  {
+    name: "migrate",
+    logging: true,
+    dropSchema: false,
+    synchronize: false,
+    migrationsRun: false,
+    ...baseOptions,
+    ...pathOptions,
+  },
+];

@@ -1,0 +1,33 @@
+# Compose runtime environment variables
+x-server-variables: &server-variables
+  JWT_SECRET: "PrettyShittySecret"
+  DATABASE_HOST: "database"
+  DATABASE_PORT: 5432
+  DATABASE_USERNAME: "admin"
+  DATABASE_PASSWORD: "password"
+  DATABASE_NAME: "prod"
+
+x-database-variables: &database-variables
+  POSTGRES_MULTIPLE_DATABASES: "dev,test,prod"
+  POSTGRES_USER: "admin"
+  POSTGRES_PASSWORD: "password"
+
+# Extended Services Definition
+services:
+  server:
+    image: ${COMPOSE_PROJECT_NAME}_server:cd
+    build:
+      dockerfile: docker/Dockerfile-server.cd
+    ports:
+      - "7002:7002"
+    environment:
+      <<: *server-variables
+
+  database:
+    image: ${COMPOSE_PROJECT_NAME}_database:cd
+    build:
+      dockerfile: docker/Dockerfile-database.cd
+    ports:
+      - "5435:5432"
+    environment:
+      <<: *database-variables

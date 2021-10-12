@@ -1,8 +1,9 @@
-# Ignore everything
+# Ignore everything...
 /*
 
-# Except these things...
+# Except these things:
 !src
 !scripts
+!migrations
 !tests
 !typings

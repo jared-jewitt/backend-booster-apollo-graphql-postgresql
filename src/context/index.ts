@@ -1,7 +1,1 @@
-import { User } from "@/entities";
-
-export { getUserContext } from "@/context/user";
-
-export interface IContext {
-  user: Partial<User>;
-}
+export { default as getUserContext } from "./user.context";

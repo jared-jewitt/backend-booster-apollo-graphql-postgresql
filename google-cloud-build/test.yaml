@@ -1,0 +1,90 @@
+steps:
+  #################################################################
+  # Build
+  #################################################################
+  - name: "docker/compose:1.29.2"
+    args: [
+      "run",
+      "server",
+      "npm",
+      "run",
+      "build"
+    ]
+    env:
+      - "COMPOSE_FILE=docker/docker-compose.yml:docker/docker-compose.ci.yml"
+      - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
+
+  #################################################################
+  # Migrate database
+  #################################################################
+  - name: "docker/compose:1.29.2"
+    args: [
+      "run",
+      "server",
+      "npm",
+      "run",
+      "db:migrate:up"
+    ]
+    env:
+      - "COMPOSE_FILE=docker/docker-compose.yml:docker/docker-compose.ci.yml"
+      - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
+
+  #################################################################
+  # Seed database
+  #################################################################
+  - name: "docker/compose:1.29.2"
+    args: [
+      "run",
+      "server",
+      "npm",
+      "run",
+      "db:seed"
+    ]
+    env:
+      - "COMPOSE_FILE=docker/docker-compose.yml:docker/docker-compose.ci.yml"
+      - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
+
+  #################################################################
+  # Wipe database
+  #################################################################
+  - name: "docker/compose:1.29.2"
+    args: [
+      "run",
+      "server",
+      "npm",
+      "run",
+      "db:wipe"
+    ]
+    env:
+      - "COMPOSE_FILE=docker/docker-compose.yml:docker/docker-compose.ci.yml"
+      - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
+
+  #################################################################
+  # Unit tests
+  #################################################################
+  - name: "docker/compose:1.29.2"
+    args: [
+      "run",
+      "server",
+      "npm",
+      "run",
+      "test:unit"
+    ]
+    env:
+      - "COMPOSE_FILE=docker/docker-compose.yml:docker/docker-compose.ci.yml"
+      - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
+
+  #################################################################
+  # End-to-end tests
+  #################################################################
+  - name: "docker/compose:1.29.2"
+    args: [
+      "run",
+      "server",
+      "npm",
+      "run",
+      "test:e2e"
+    ]
+    env:
+      - "COMPOSE_FILE=docker/docker-compose.yml:docker/docker-compose.ci.yml"
+      - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"

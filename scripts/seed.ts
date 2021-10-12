@@ -1,28 +1,32 @@
-import { createConnection } from "typeorm";
+import * as faker from "faker";
+import isDocker from "is-docker";
+import dotenv from "dotenv";
+import { createConnection as createDatabaseConnection } from "typeorm";
 import { User, Post } from "@/entities";
 
+if (!isDocker()) {
+  dotenv.config({ path: "./.env.localhost.development" });
+}
+
 (async (): Promise<void> => {
-  try {
-    const database = await createConnection();
-    const userRepository = database.getRepository(User);
-    const postRepository = database.getRepository(Post);
+  const database = await createDatabaseConnection("seed");
 
-    await database.synchronize();
+  const userRepository = database.getRepository(User);
+  const postRepository = database.getRepository(Post);
 
-    const user = await userRepository.save({
-      username: "username",
-      password: "password",
+  const user = await userRepository.save({
+    username: faker.internet.email(),
+    password: faker.internet.password(),
+  });
+
+  for (let i = 0; i < 50; i++) {
+    await postRepository.save({
+      message: faker.random.words(5),
+      userId: user.id,
     });
-
-    for (let i = 0; i < 10; i++) {
-      await postRepository.save({
-        message: `Dummy post #${i + 1}`,
-        userId: user.id,
-      });
-    }
-
-    console.log("Database seeded!");
-  } catch (e) {
-    console.error(e);
   }
-})();
+
+  await database.close();
+
+  console.log("Database seeded!");
+})().catch((e) => console.error(e));

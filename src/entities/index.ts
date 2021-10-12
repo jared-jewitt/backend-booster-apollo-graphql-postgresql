@@ -1,8 +1,8 @@
-export { default as Post } from "@/entities/post";
+export { default as Post } from "./post.entity";
 export {
   default as User,
   LoginInput,
   RegisterInput,
   LoginOutput,
   RegisterOutput,
-} from "@/entities/user";
+} from "./user.entity";

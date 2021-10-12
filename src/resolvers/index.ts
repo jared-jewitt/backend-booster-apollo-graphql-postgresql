@@ -1,2 +1,2 @@
-export { default as PostResolver } from "@/resolvers/post";
-export { default as UserResolver } from "@/resolvers/user";
+export { default as PostResolver } from "./post.resolver";
+export { default as UserResolver } from "./user.resolver";

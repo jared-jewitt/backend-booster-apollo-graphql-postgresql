@@ -1,0 +1,84 @@
+availableSecrets:
+  secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/DEV_JWT_SECRET/versions/latest
+      env: "JWT_SECRET"
+    - versionName: projects/$PROJECT_ID/secrets/DEV_DATABASE_HOST/versions/latest
+      env: "DATABASE_HOST"
+    - versionName: projects/$PROJECT_ID/secrets/DEV_DATABASE_USERNAME/versions/latest
+      env: "DATABASE_USERNAME"
+    - versionName: projects/$PROJECT_ID/secrets/DEV_DATABASE_PASSWORD/versions/latest
+      env: "DATABASE_PASSWORD"
+    - versionName: projects/$PROJECT_ID/secrets/DEV_DATABASE_NAME/versions/latest
+      env: "DATABASE_NAME"
+
+steps:
+  #################################################################
+  # Build
+  #################################################################
+  - name: "docker/compose:1.29.2"
+    args: [
+      "build",
+      "server"
+    ]
+    env:
+      - "COMPOSE_FILE=docker/docker-compose.yml:docker/docker-compose.cd.yml"
+      - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
+
+  #################################################################
+  # Tag
+  #################################################################
+  - name: "gcr.io/cloud-builders/docker"
+    args: [
+      "tag",
+      "backend-booster-graphql-postgresql_server:cd",
+      "gcr.io/$PROJECT_ID/server:$SHORT_SHA"
+    ]
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: [
+      "tag",
+      "backend-booster-graphql-postgresql_server:cd",
+      "gcr.io/$PROJECT_ID/server:development"
+    ]
+
+  #################################################################
+  # Push
+  #################################################################
+  - name: "gcr.io/cloud-builders/docker"
+    args: [
+      "push",
+      "gcr.io/$PROJECT_ID/server"
+    ]
+
+  #################################################################
+  # Migrate
+  #################################################################
+  - name: "gcr.io/google-appengine/exec-wrapper"
+    args: [
+      "-i", "gcr.io/$PROJECT_ID/server:development",
+      "-s", "$PROJECT_ID:us-central1:development",
+      "-e", "DATABASE_HOST=$$DATABASE_HOST",
+      "-e", "DATABASE_USERNAME=$$DATABASE_USERNAME",
+      "-e", "DATABASE_PASSWORD=$$DATABASE_PASSWORD",
+      "-e", "DATABASE_NAME=$$DATABASE_NAME",
+      "--", "npm", "run", "db:migrate:up"
+    ]
+
+  #################################################################
+  # Deploy
+  #################################################################
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args: [
+      "run", "deploy", "server-development",
+      "--allow-unauthenticated",
+      "--platform", "managed",
+      "--region", "us-central1",
+      "--add-cloudsql-instances", "development",
+      "--image", "gcr.io/$PROJECT_ID/server:development",
+      "--set-env-vars", "JWT_SECRET=$$JWT_SECRET",
+      "--set-env-vars", "DATABASE_HOST=$$DATABASE_HOST",
+      "--set-env-vars", "DATABASE_USERNAME=$$DATABASE_USERNAME",
+      "--set-env-vars", "DATABASE_PASSWORD=$$DATABASE_PASSWORD",
+      "--set-env-vars", "DATABASE_NAME=$$DATABASE_NAME"
+    ]
