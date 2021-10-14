@@ -16,7 +16,7 @@ steps:
       - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
 
   #################################################################
-  # Migrate database
+  # Migrate
   #################################################################
   - id: "migrate"
     name: "docker/compose:1.29.2"
@@ -32,7 +32,7 @@ steps:
       - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
 
   #################################################################
-  # Seed database
+  # Seed
   #################################################################
   - id: "seed"
     name: "docker/compose:1.29.2"
@@ -48,7 +48,7 @@ steps:
       - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
 
   #################################################################
-  # Wipe database
+  # Wipe
   #################################################################
   - id: "wipe"
     name: "docker/compose:1.29.2"
