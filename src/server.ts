@@ -1,40 +1,51 @@
 import "reflect-metadata";
-import isDocker from "is-docker";
 import dotenv from "dotenv";
 import { ApolloServer } from "apollo-server";
 import { buildSchema as buildGraphQLSchema } from "type-graphql";
-import { createConnection as createDatabaseConnection } from "typeorm";
+import {
+  Connection as TypeORMConnection,
+  createConnection as createDatabaseConnection,
+} from "typeorm";
 import { getUserContext } from "@/context";
 import { PostResolver, UserResolver } from "@/resolvers";
 
-if (!isDocker()) {
+if (!process.env.IN_COMPOSE && !process.env.IN_GOOGLE_CLOUD) {
   dotenv.config({ path: `./.env.localhost.${process.env.NODE_ENV}` });
 }
 
+let server: ApolloServer;
+let database: TypeORMConnection;
+
 (async (): Promise<void> => {
-  await createDatabaseConnection("default");
+  try {
+    database = await createDatabaseConnection("default");
 
-  const server = new ApolloServer({
-    schema: await buildGraphQLSchema({
-      resolvers: [
-        PostResolver,
-        UserResolver,
-        // Add more resolvers here as needed.
+    server = new ApolloServer({
+      schema: await buildGraphQLSchema({
+        resolvers: [
+          PostResolver,
+          UserResolver,
+          // Add more resolvers here as needed.
+          // ...
+          // ...
+        ],
+      }),
+      context: ({ req, res }) => ({
+        req,
+        res,
+        user: getUserContext({ req, res }),
+        // Add more context objects here as needed.
         // ...
         // ...
-      ],
-    }),
-    context: ({ req, res }) => ({
-      req,
-      res,
-      user: getUserContext({ req, res }),
-      // Add more context objects here as needed.
-      // ...
-      // ...
-    }),
-  });
+      }),
+    });
 
-  server
-    .listen({ port: process.env.PORT })
-    .then(({ url }) => console.log(`🚀 Server ready at ${url}`));
-})().catch((e) => console.error(e));
+    const { url } = await server.listen({ port: process.env.PORT });
+
+    console.log(`🚀 Server ready at ${url}`);
+  } catch (e) {
+    console.log(e);
+    await database.close();
+    process.exit(1);
+  }
+})();

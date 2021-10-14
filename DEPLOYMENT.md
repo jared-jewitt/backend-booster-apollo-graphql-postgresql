@@ -25,7 +25,7 @@ deployment.
 
 - [Create a Google Cloud Console Account](https://console.cloud.google.com) then [Create a new Project Name and ID](https://console.cloud.google.com/projectcreate)
 - [Enable the Google Container Registry API](https://console.cloud.google.com/apis/library/containerregistry.googleapis.com)
-- [Enable the Secret Manager API](https://console.cloud.google.com/apis/library/secretmanager.googleapis.com)
+- [Enable the Compute Engine API](https://console.cloud.google.com/apis/library/compute.googleapis.com)
 - [Enable the Cloud Build API](https://console.cloud.google.com/apis/library/cloudbuild.googleapis.com)
 - [Enable the Cloud Run API](https://console.developers.google.com/apis/library/run.googleapis.com)
 - [Enable the Cloud SQL Admin API](https://console.cloud.google.com/apis/library/sqladmin.googleapis.com)
@@ -35,19 +35,18 @@ deployment.
 [Update the `@cloudbuild` service account to include the following roles](https://console.cloud.google.com/iam-admin/iam):
  - Cloud Build Service Agent
  - Service Account User
- - Secret Manager Secret Accessor
  - Cloud Run Admin
  - Cloud SQL Admin
 
 ### <ins>Google Cloud SQL</ins>
 
-Navigate [here](https://console.cloud.google.com/sql/create-instance-postgres) and create a development and production
-database instance with the configuration from the table below.
+Navigate [here](https://console.cloud.google.com/sql/instances) and create a development and production database 
+instance with the configuration from the table below.
 
 |                                     | Development database            | Production database               |
 | ----------------------------------- | ------------------------------- | --------------------------------- |
 | Instance ID                         | development                     | production                        |
-| Password                            | xxxxxxxxxxxx                    | xxxxxxxxxxxx                      |
+| Password                            | ************                    | ************                      |
 | Database version                    | PostgreSQL 13                   | PostgreSQL 13                     |
 | Region                              | us-central1 (lowa)              | us-central1 (lowa)                |
 | Zonal availability                  | Single Zone                     | Multiple zones (Highly available) |
@@ -63,33 +62,18 @@ database instance with the configuration from the table below.
 Navigate [here](https://console.cloud.google.com/cloud-build/triggers) and create 3 triggers using the configuration 
 from the table below.
 
-|                 | Trigger #1                                                                         | Trigger #2                                                                          | Trigger #3                                                                            |
-| --------------- | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| Name            | Test                                                                               | Build                                                                               | Promote                                                                               |
-| Description     | Run unit and integration tests                                                     | Deploy to deployment environment                                                    | Deploy to production environment                                                      |
-| Event           | **Pull request**                                                                   | **Push to a branch**                                                                | **Push to a branch**                                                                  |
-| Source          | github-profile/repository-name (GitHub App)                                        | github-profile/repository-name (GitHub App)                                         | github-profile/repository-name (GitHub App)                                           |
-| Branch          | `^development$`                                                                    | <code>^(development&#124;build&#124;hotfix\/[a-zA-Z0-9_.-]+)$</code>                | `^production$`                                                                        |
-| Comment control | **Required except for owners and collaborators**                                   | -----                                                                               | -----                                                                                 |
-| Configuration   | **Cloud Build configuration file (yaml or json)** - `google-cloud-build/test.yaml` | **Cloud Build configuration file (yaml or json)** - `google-cloud-build/build.yaml` | **Cloud Build configuration file (yaml or json)** - `google-cloud-build/promote.yaml` |
+|                          | Trigger #1                                                                         | Trigger #2                                                                                                                                                                                                                      | Trigger #3                                                                                                                                                                                                                     |
+| ------------------------ | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Name                     | Test                                                                               | Build                                                                                                                                                                                                                           | Promote                                                                                                                                                                                                                        |
+| Description              | Run unit and integration tests                                                     | Deploy to deployment environment                                                                                                                                                                                                | Deploy to production environment                                                                                                                                                                                               |
+| Event                    | **Pull request**                                                                   | **Push to a branch**                                                                                                                                                                                                            | **Push to a branch**                                                                                                                                                                                                           |
+| Repository               | github-profile/repository-name (GitHub App)                                        | github-profile/repository-name (GitHub App)                                                                                                                                                                                     | github-profile/repository-name (GitHub App)                                                                                                                                                                                    |
+| Branch                   | `^development$`                                                                    | <code>^(development&#124;build&#124;hotfix\/[a-zA-Z0-9_.-]+)$</code>                                                                                                                                                            | `^production$`                                                                                                                                                                                                                 |
+| Comment control          | **Required except for owners and collaborators**                                   | N/A                                                                                                                                                                                                                             | N/A                                                                                                                                                                                                                            |
+| Configuration            | **Cloud Build configuration file (yaml or json)** - `google-cloud-build/test.yaml` | **Cloud Build configuration file (yaml or json)** - `google-cloud-build/build.yaml`                                                                                                                                             | **Cloud Build configuration file (yaml or json)** - `google-cloud-build/promote.yaml`                                                                                                                                          |
+| Substitution variables   | N/A                                                                                | `_JWT_SECRET=******`<br>`_DATABASE_HOST=/cloudsql/<project id>:<region>:development`<br>`_DATABASE_PORT=5432`<br>`_DATABASE_USERNAME=postgres`<br>`_DATABASE_PASSWORD=******`<br>`_DATABASE_NAME=postgres`<br>...<br>...<br>... | `_JWT_SECRET=******`<br>`_DATABASE_HOST=/cloudsql/<project id>:<region>:production`<br>`_DATABASE_PORT=5432`<br>`_DATABASE_USERNAME=postgres`<br>`_DATABASE_PASSWORD=******`<br>`_DATABASE_NAME=postgres`<br>...<br>...<br>... |
 
-### <ins>Google Cloud Secret Manager</ins>
-
-Navigate [here](https://console.cloud.google.com/security/secret-manager) and create development and production
-secrets with the configuration from the table below. With `<SECRET_NAME>` being the name of your environment variable. 
-Look inside [.env.localhost.development](.env.localhost.development) to get the current set of names. (It's likely you'll
-add more as your app grows). For example, `DATABASE_PASSWORD` would be entered into Google Cloud Secret Manager as such:
-  - `DEV_DATABASE_PASSWORD` -> `some super secret development key`
-  - `PROD_DATABASE_PASSWORD` -> `some super secret production key`
-
-It's also worth noting that the environment variable values committed in this repo are only used when running the app 
-locally. Any values entered to Google Cloud Secret Manager should be absolutely secret and **NOT** checked into source 
-control by any means whatsoever.
-
-|              | Development secret  | Production secret    |
-| ------------ | ------------------- | -------------------- |
-| Name         | `DEV_<SECRET_NAME>` | `PROD_<SECRET_NAME>` |
-| Secret value | xxxxxxxxxxxx        | xxxxxxxxxxxx         |
+---
 
 ## Okay, time to deploy!
 

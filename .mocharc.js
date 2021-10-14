@@ -1,9 +1,8 @@
-const isDocker = require("is-docker");
 const dotenv = require("dotenv");
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
 
-if (!isDocker()) {
+if (!process.env.IN_GOOGLE_CLOUD && !process.env.IN_COMPOSE) {
   dotenv.config({ path: "./.env.localhost.test" });
 }
 

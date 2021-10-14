@@ -1,5 +1,6 @@
 # Compose runtime environment variables
 x-server-variables: &server-variables
+  IN_COMPOSE: "true"
   JWT_SECRET: "PrettyShittySecret"
   DATABASE_HOST: "database"
   DATABASE_PORT: 5432

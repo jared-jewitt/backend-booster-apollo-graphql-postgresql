@@ -2,11 +2,11 @@ import * as faker from "faker";
 import { expect } from "chai";
 import { ApolloServer } from "apollo-server";
 import { ApolloClient, NormalizedCacheObject, gql } from "apollo-boost";
-import { Connection } from "typeorm";
+import { Connection as TypeORMConnection } from "typeorm";
 import { User } from "@/entities";
 import { getDatabase, getClient, getServer } from "../../support";
 
-let database: Connection;
+let database: TypeORMConnection;
 let server: ApolloServer;
 let client: ApolloClient<NormalizedCacheObject>;
 

@@ -1,15 +1,25 @@
-import isDocker from "is-docker";
 import dotenv from "dotenv";
-import { createConnection as createDatabaseConnection } from "typeorm";
+import {
+  Connection as TypeORMConnection,
+  createConnection as createDatabaseConnection,
+} from "typeorm";
 
-if (!isDocker()) {
+if (!process.env.IN_COMPOSE && !process.env.IN_GOOGLE_CLOUD) {
   dotenv.config({ path: "./.env.localhost.development" });
 }
 
+let database: TypeORMConnection;
+
 (async (): Promise<void> => {
-  const database = await createDatabaseConnection("wipe");
+  try {
+    database = await createDatabaseConnection("wipe");
 
-  await database.close();
-
-  console.log("Database wiped!");
-})().catch((e) => console.error(e));
+    console.log("Database wiped!");
+    await database.close();
+    process.exit(0);
+  } catch (e) {
+    console.log(e);
+    await database.close();
+    process.exit(1);
+  }
+})();

@@ -1,9 +1,7 @@
-import isDocker from "is-docker";
 import dotenv from "dotenv";
 import { exec } from "child_process";
-import { createConnection as createDatabaseConnection } from "typeorm";
 
-if (!isDocker()) {
+if (!process.env.IN_COMPOSE && !process.env.IN_GOOGLE_CLOUD) {
   dotenv.config({ path: "./.env.localhost.development" });
 }
 
@@ -16,18 +14,22 @@ enum Action {
 }
 
 const run = (...[command, ...rest]: string[]): void => {
-  exec(command, (error, stdout) => {
-    error ? console.error(error) : console.log(stdout);
-    rest.length && run(...rest);
+  exec(command, (error, stdout, stderr) => {
+    if (stderr) {
+      console.log(stderr);
+      process.exit(1);
+    } else {
+      console.log(stdout);
+      rest.length && run(...rest);
+    }
   });
 };
 
-(async (): Promise<void> => {
-  const database = await createDatabaseConnection("migrate");
-
+((): void => {
   const action = process.argv[2];
   const flags = process.argv.slice(2).join().replace(/,/g, " ").replace(action, "");
-  const typeorm = "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js";
+  const typeorm =
+    "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --connection migrate";
 
   switch (action) {
     case Action.Generate:
@@ -48,6 +50,4 @@ const run = (...[command, ...rest]: string[]): void => {
     default:
       throw new Error("Invalid migration command. Must pass either [generate|create|up|down|show]");
   }
-
-  await database.close();
-})().catch((e) => console.error(e));
+})();
