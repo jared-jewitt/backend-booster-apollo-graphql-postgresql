@@ -28,26 +28,31 @@ However, that being said, it can still be used completely on its own.
 
 ### 🏃 Getting Started
 
-Starting the fully-fledged backend is as simple as running the command below.
+Starting the fully-fledged backend is as simple as running the commands below.
 
 ```
-make up
+$ setup.sh
+
+$ make database
+
+$ make server
 ```
 
 - The server container exposes port 7000 and can be viewed by visiting http://localhost:7000
-- The database container exposes port 5435 and can be viewed by using [Postico](https://eggerapps.at/postico/). 
-  See [.env.localhost.development](.env.localhost.development) for connection values
+- The database container exposes port 5432 and can be viewed by using [Postico](https://eggerapps.at/postico/). 
+  See [.env.development.local](.env.development.local) for connection values
 
 ### ⌨️ Commands
 
 ###### Make
 
-| Command     | Description                                                             |
-| ----------- | ----------------------------------------------------------------------- |
-| `make up`   | Launches the database + server                                          |
-| `make down` | Removes the database + server containers                                |
-| `make nuke` | Purges all database + server containers, images, networks, volumes      |
-| `make bash` | Shells into the server to run one-off commands. e.g. `npm run test:e2e` |
+| Command         | Description                                                             |
+| --------------- | ----------------------------------------------------------------------- |
+| `make database` | Launches the database container                                         |
+| `make server`   | Launches the server container                                           |
+| `make down`     | Removes the database + server containers                                |
+| `make nuke`     | Purges all database + server containers, images, networks, volumes      |
+| `make bash`     | Shells into the server to run one-off commands. e.g. `npm run test:e2e` |
 
 ###### NPM
 
@@ -57,8 +62,8 @@ make up
 | `npm run prod`                | Runs the built server on $PORT &#124;&#124; 7002 (must run `npm run build` first) |
 | `npm run dev`                 | Runs the server with hot reloading on $PORT &#124;&#124; 7000                     |
 | `npm run test`                | Runs the entire suite of unit and end-to-end tests                                |
-| `npm run test:unit`           | Runs the suite of unit tests                                                      |
 | `npm run test:e2e`            | Runs the suite of end-to-end tests                                                |
+| `npm run test:unit`           | Runs the suite of unit tests                                                      |
 | `npm run db:seed`             | Seeds the database with dummy data                                                |
 | `npm run db:wipe`             | Drops the database and all its data                                               |
 | `npm run db:migrate:generate` | Generates a migration file with all SQL queries needed to update the database     |
@@ -66,6 +71,20 @@ make up
 | `npm run db:migrate:up`       | Executes all pending migrations                                                   |
 | `npm run db:migrate:down`     | Reverts the most recently executed migration                                      |
 | `npm run db:migrate:show`     | Shows all migrations and whether they've been run or not                          |
+
+### 🌱 Environment Variables
+
+Environment variables are injected into the app at runtime. To add a new environment variable, you will need to update
+the following files:
+
+- [.env.production.local](.env.production.local) - Loads environment variables for the app at runtime in prod mode
+- [.env.development.local](.env.development.local) - Loads environment variables for the app at runtime in dev mode
+- [.env.test.local](.env.test.local) - Loads environment variables for the app at runtime in test mode
+
+Please note the environment variables in each of these places are only used when running the app locally. If you are 
+deploying this app, it is expected you specify env vars on the hosted server and reference them in
+[google-cloud-build/build.yaml](google-cloud-build/build.yaml) and
+[google-cloud-build/promote.yaml](google-cloud-build/promote.yaml). See [deployment](#-deployment).
 
 ### 🔃 Migrations
 
@@ -76,14 +95,14 @@ commands:
 - `npm run db:migrate:generate -- -n <name>` --> This will create a migration file and write all SQL queries needed to update
    the database. If there were no changes generated from the last migration, the command will exit with code 1
 
-When creating and running migrations, it's a very good idea to stop your dev server if it's running. Since it runs with
-`syncronize` on in dev mode, it will automatically try to update your schema as you change your code. Which can be very
-frustrating as you're trying to test out your migrations.
+When creating and running migrations, it's a very good idea to stop your dev server if it's running. Since the server
+runs with`syncronize` on in dev mode, it will automatically try to update your schema as you change your code. Which 
+can be very frustrating as you're trying to test out your migrations.
 
 ### 🚀 Deployment
 
-[Instructions here](DEPLOYMENT.md).
+[Instructions here](DEPLOYMENT.md)
 
 ### ⚖️ License
 
-Code released under the [MIT License](LICENSE).
+Code released under the [MIT License](LICENSE)

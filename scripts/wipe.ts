@@ -1,12 +1,7 @@
-import dotenv from "dotenv";
 import {
   Connection as TypeORMConnection,
   createConnection as createDatabaseConnection,
 } from "typeorm";
-
-if (!process.env.IN_COMPOSE && !process.env.IN_GOOGLE_CLOUD) {
-  dotenv.config({ path: "./.env.localhost.development" });
-}
 
 let database: TypeORMConnection;
 

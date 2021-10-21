@@ -5,7 +5,7 @@ import { ApolloClient, NormalizedCacheObject, gql } from "apollo-boost";
 import { Connection as TypeORMConnection } from "typeorm";
 import { Post, User } from "@/entities";
 import { generateJWTToken } from "@/helpers";
-import { getDatabase, getClient, getServer } from "../../support";
+import { getDatabase, getClient, getServer } from "../../helpers";
 
 let database: TypeORMConnection;
 let server: ApolloServer;
@@ -50,7 +50,7 @@ const DELETE_POST_MUTATION = gql`
   }
 `;
 
-describe("E2E - Post flow", () => {
+describe("E2E - post flow", () => {
   before(async () => {
     database = await getDatabase();
     server = await getServer();

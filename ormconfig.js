@@ -7,11 +7,7 @@ const baseOptions = {
   port: parseInt(process.env.DATABASE_PORT),
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
-  database: process.env.IN_GOOGLE_CLOUD ? process.env.DATABASE_NAME : {
-    "production": "prod",
-    "development": "dev",
-    "test": "test",
-  }[process.env.NODE_ENV || "development"],
+  database: process.env.DATABASE_NAME,
 };
 
 const pathOptions = {

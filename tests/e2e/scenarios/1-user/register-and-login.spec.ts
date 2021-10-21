@@ -4,7 +4,7 @@ import { ApolloServer } from "apollo-server";
 import { ApolloClient, NormalizedCacheObject, gql } from "apollo-boost";
 import { Connection as TypeORMConnection } from "typeorm";
 import { User } from "@/entities";
-import { getDatabase, getClient, getServer } from "../../support";
+import { getDatabase, getClient, getServer } from "../../helpers";
 
 let database: TypeORMConnection;
 let server: ApolloServer;
@@ -34,7 +34,7 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-describe("E2E - User flow", () => {
+describe("E2E - user flow", () => {
   before(async () => {
     database = await getDatabase();
     server = await getServer();

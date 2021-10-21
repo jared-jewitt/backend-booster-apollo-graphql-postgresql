@@ -1,0 +1,46 @@
+version: "3.9"
+
+# Services definition
+services:
+  server:
+    container_name: ${COMPOSE_PROJECT_NAME}_server
+    image: ${COMPOSE_PROJECT_NAME}_server:production
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile-server.production
+    ports:
+      - "7002:7002"
+    volumes:
+      - "../:/usr/src/app"
+      - "/usr/src/app/node_modules"
+    depends_on:
+      - database
+    networks:
+      - default
+
+  database:
+    container_name: ${COMPOSE_PROJECT_NAME}_database
+    image: ${COMPOSE_PROJECT_NAME}_database:production
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile-database.production
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_MULTIPLE_DATABASES: "dev,test,prod"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "password"
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    networks:
+      - default
+
+# Networks definition
+networks:
+  default:
+    driver: bridge
+
+# Volumes definition
+volumes:
+  db-data:
+    driver: local

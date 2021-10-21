@@ -1,9 +1,4 @@
-import dotenv from "dotenv";
 import { exec } from "child_process";
-
-if (!process.env.IN_COMPOSE && !process.env.IN_GOOGLE_CLOUD) {
-  dotenv.config({ path: "./.env.localhost.development" });
-}
 
 enum Action {
   Generate = "generate",

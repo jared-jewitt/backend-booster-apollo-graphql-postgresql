@@ -1,14 +1,9 @@
 import * as faker from "faker";
-import dotenv from "dotenv";
 import {
   Connection as TypeORMConnection,
   createConnection as createDatabaseConnection,
 } from "typeorm";
 import { User, Post } from "@/entities";
-
-if (!process.env.IN_COMPOSE && !process.env.IN_GOOGLE_CLOUD) {
-  dotenv.config({ path: "./.env.localhost.development" });
-}
 
 let database: TypeORMConnection;
 

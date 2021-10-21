@@ -12,7 +12,7 @@ steps:
       "build"
     ]
     env:
-      - "COMPOSE_FILE=docker/docker-compose.yml:docker/docker-compose.ci.yml"
+      - "COMPOSE_FILE=docker/docker-compose.test.yml"
       - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
 
   #################################################################
@@ -28,7 +28,7 @@ steps:
       "db:migrate:up"
     ]
     env:
-      - "COMPOSE_FILE=docker/docker-compose.yml:docker/docker-compose.ci.yml"
+      - "COMPOSE_FILE=docker/docker-compose.test.yml"
       - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
 
   #################################################################
@@ -44,7 +44,7 @@ steps:
       "db:seed"
     ]
     env:
-      - "COMPOSE_FILE=docker/docker-compose.yml:docker/docker-compose.ci.yml"
+      - "COMPOSE_FILE=docker/docker-compose.test.yml"
       - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
 
   #################################################################
@@ -60,7 +60,7 @@ steps:
       "db:wipe"
     ]
     env:
-      - "COMPOSE_FILE=docker/docker-compose.yml:docker/docker-compose.ci.yml"
+      - "COMPOSE_FILE=docker/docker-compose.test.yml"
       - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
 
   #################################################################
@@ -76,7 +76,7 @@ steps:
       "test:unit"
     ]
     env:
-      - "COMPOSE_FILE=docker/docker-compose.yml:docker/docker-compose.ci.yml"
+      - "COMPOSE_FILE=docker/docker-compose.test.yml"
       - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
 
   #################################################################
@@ -92,5 +92,5 @@ steps:
       "test:e2e"
     ]
     env:
-      - "COMPOSE_FILE=docker/docker-compose.yml:docker/docker-compose.ci.yml"
+      - "COMPOSE_FILE=docker/docker-compose.test.yml"
       - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"

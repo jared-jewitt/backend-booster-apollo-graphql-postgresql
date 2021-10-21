@@ -28,7 +28,6 @@ steps:
     args: [
       "-i", "gcr.io/$PROJECT_ID/server:production",
       "-s", "$PROJECT_ID:us-central1:production",
-      "-e", "IN_GOOGLE_CLOUD=true",
       "-e", "DATABASE_HOST=${_DATABASE_HOST}",
       "-e", "DATABASE_USERNAME=${_DATABASE_USERNAME}",
       "-e", "DATABASE_PASSWORD=${_DATABASE_PASSWORD}",
@@ -49,7 +48,7 @@ steps:
       "--region", "us-central1",
       "--add-cloudsql-instances", "production",
       "--image", "gcr.io/$PROJECT_ID/server:production",
-      "--set-env-vars", "IN_GOOGLE_CLOUD=true",
+      "--set-env-vars", "APP_ENV=${_APP_ENV}",
       "--set-env-vars", "JWT_SECRET=${_JWT_SECRET}",
       "--set-env-vars", "DATABASE_HOST=${_DATABASE_HOST}",
       "--set-env-vars", "DATABASE_USERNAME=${_DATABASE_USERNAME}",

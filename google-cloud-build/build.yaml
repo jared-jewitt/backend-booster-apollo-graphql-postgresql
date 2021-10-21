@@ -9,25 +9,23 @@ steps:
       "server"
     ]
     env:
-      - "COMPOSE_FILE=docker/docker-compose.yml:docker/docker-compose.cd.yml"
+      - "COMPOSE_FILE=docker/docker-compose.production.yml"
       - "COMPOSE_PROJECT_NAME=backend-booster-graphql-postgresql"
 
   #################################################################
   # Tag
   #################################################################
-  - id: "tag-1"
-    name: "gcr.io/cloud-builders/docker"
+  - name: "gcr.io/cloud-builders/docker"
     args: [
       "tag",
-      "backend-booster-graphql-postgresql_server:cd",
+      "backend-booster-graphql-postgresql_server:production",
       "gcr.io/$PROJECT_ID/server:$SHORT_SHA"
     ]
 
-  - id: "tag-2"
-    name: "gcr.io/cloud-builders/docker"
+  - name: "gcr.io/cloud-builders/docker"
     args: [
       "tag",
-      "backend-booster-graphql-postgresql_server:cd",
+      "backend-booster-graphql-postgresql_server:production",
       "gcr.io/$PROJECT_ID/server:development"
     ]
 
@@ -49,7 +47,6 @@ steps:
     args: [
       "-i", "gcr.io/$PROJECT_ID/server:development",
       "-s", "$PROJECT_ID:us-central1:development",
-      "-e", "IN_GOOGLE_CLOUD=true",
       "-e", "DATABASE_HOST=${_DATABASE_HOST}",
       "-e", "DATABASE_USERNAME=${_DATABASE_USERNAME}",
       "-e", "DATABASE_PASSWORD=${_DATABASE_PASSWORD}",
@@ -70,7 +67,7 @@ steps:
       "--region", "us-central1",
       "--add-cloudsql-instances", "development",
       "--image", "gcr.io/$PROJECT_ID/server:development",
-      "--set-env-vars", "IN_GOOGLE_CLOUD=true",
+      "--set-env-vars", "APP_ENV=${_APP_ENV}",
       "--set-env-vars", "JWT_SECRET=${_JWT_SECRET}",
       "--set-env-vars", "DATABASE_HOST=${_DATABASE_HOST}",
       "--set-env-vars", "DATABASE_USERNAME=${_DATABASE_USERNAME}",

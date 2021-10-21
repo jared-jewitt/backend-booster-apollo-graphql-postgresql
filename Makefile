@@ -1,9 +1,12 @@
-export COMPOSE_FILE = docker/docker-compose.yml:docker/docker-compose.local.yml
+export COMPOSE_FILE = docker/docker-compose.development.yml
 export COMPOSE_PROJECT_NAME ?= backend-booster-graphql-postgresql
 
-up:
-	$(info Launching the database + server...)
+database:
+	$(info Launching the database...)
 	@docker-compose up -d database
+
+server:
+	$(info Launching the server...)
 	@docker-compose up server
 
 down:

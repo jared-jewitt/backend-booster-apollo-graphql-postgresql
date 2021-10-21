@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import dotenv from "dotenv";
 import { ApolloServer } from "apollo-server";
 import { buildSchema as buildGraphQLSchema } from "type-graphql";
 import {
@@ -8,10 +7,6 @@ import {
 } from "typeorm";
 import { getUserContext } from "@/context";
 import { PostResolver, UserResolver } from "@/resolvers";
-
-if (!process.env.IN_COMPOSE && !process.env.IN_GOOGLE_CLOUD) {
-  dotenv.config({ path: `./.env.localhost.${process.env.NODE_ENV}` });
-}
 
 let server: ApolloServer;
 let database: TypeORMConnection;
