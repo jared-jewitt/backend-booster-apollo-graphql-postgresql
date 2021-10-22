@@ -30,17 +30,17 @@ However, that being said, it can still be used completely on its own.
 
 Starting the fully-fledged backend is as simple as running the commands below.
 
+```shell
+sh setup.sh
+
+make database
+
+make server
 ```
-$ setup.sh
 
-$ make database
-
-$ make server
-```
-
-- The server container exposes port 7000 and can be viewed by visiting http://localhost:7000
 - The database container exposes port 5432 and can be viewed by using [Postico](https://eggerapps.at/postico/). 
   See [.env.development.local](.env.development.local) for connection values
+- The server container exposes port 7000 and can be viewed by visiting http://localhost:7000
 
 ### ⌨️ Commands
 
@@ -84,7 +84,7 @@ the following files:
 Please note the environment variables in each of these places are only used when running the app locally. If you are 
 deploying this app, it is expected you specify env vars on the hosted server and reference them in
 [google-cloud-build/build.yaml](google-cloud-build/build.yaml) and
-[google-cloud-build/promote.yaml](google-cloud-build/promote.yaml). See [deployment](#-deployment).
+[google-cloud-build/promote.yaml](google-cloud-build/promote.yaml). See [deployment](DEPLOYMENT.md).
 
 ### 🔃 Migrations
 
@@ -92,11 +92,11 @@ Migrations are located in the [migrations](migrations) folder. To create a migra
 commands:
 
 - `npm run db:migrate:create -- -n <name>` --> This will create an empty migration file ready for you to populate
-- `npm run db:migrate:generate -- -n <name>` --> This will create a migration file and write all SQL queries needed to update
-   the database. If there were no changes generated from the last migration, the command will exit with code 1
+- `npm run db:migrate:generate -- -n <name>` --> This will create a migration file and write all SQL queries needed to 
+   update the database. If there were no changes generated from the last migration, the command will exit with code 1
 
 When creating and running migrations, it's a very good idea to stop your dev server if it's running. Since the server
-runs with`syncronize` on in dev mode, it will automatically try to update your schema as you change your code. Which 
+runs with `syncronize` on in dev mode, it will automatically try to update your schema as you change your code. Which 
 can be very frustrating as you're trying to test out your migrations.
 
 ### 🚀 Deployment

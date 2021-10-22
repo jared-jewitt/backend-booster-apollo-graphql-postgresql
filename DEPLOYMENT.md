@@ -23,7 +23,7 @@ deployment.
 
 ## Google Cloud Console Setup
 
-- [Create a Google Cloud Console Account](https://console.cloud.google.com) then [Create a new Project Name and ID](https://console.cloud.google.com/projectcreate)
+- [Create a Google Cloud Console account](https://console.cloud.google.com) then [create a new project name and ID](https://console.cloud.google.com/projectcreate)
 - [Enable the Google Container Registry API](https://console.cloud.google.com/apis/library/containerregistry.googleapis.com)
 - [Enable the Compute Engine API](https://console.cloud.google.com/apis/library/compute.googleapis.com)
 - [Enable the Cloud Build API](https://console.cloud.google.com/apis/library/cloudbuild.googleapis.com)
@@ -80,7 +80,7 @@ from the table below.
 ##### Deploying to Development:
 
 Create a new feature branch from `development`. Write some code, push it, and make a pull request back to
-`development`. Creating a pull request automatically runs unit/e2e tests via Cloud Build. Do not merge
+`development`. Creating a pull request automatically runs unit and end-to-end tests via Cloud Build. Do not merge
 this until all tests have passed. Once you merge your code, a build and release will run via Cloud Build. After that 
 has finished, check the Cloud Build logs and you will see the URL of the newly deployed development server.
 
