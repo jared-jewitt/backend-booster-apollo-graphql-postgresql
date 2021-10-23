@@ -28,7 +28,7 @@ const run = (...[command, ...rest]: string[]): void => {
 
   switch (action) {
     case Action.Generate:
-      run(`${typeorm} migration:generate ${flags}`, "prettier --write migrations/**/*.ts");
+      run(`${typeorm} migration:generate --pretty ${flags}`, "prettier --write migrations/**/*.ts");
       break;
     case Action.Create:
       run(`${typeorm} migration:create ${flags}`, "prettier --write migrations/**/*.ts");
