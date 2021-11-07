@@ -1,10 +1,7 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server";
 import { buildSchema as buildGraphQLSchema } from "type-graphql";
-import {
-  Connection as TypeORMConnection,
-  createConnection as createDatabaseConnection,
-} from "typeorm";
+import { Connection as TypeORMConnection, createConnection as createDatabaseConnection } from "typeorm";
 import { getUserContext } from "@/context";
 import { PostResolver, UserResolver } from "@/resolvers";
 

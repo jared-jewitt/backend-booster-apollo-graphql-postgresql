@@ -1,8 +1,5 @@
 import * as faker from "faker";
-import {
-  Connection as TypeORMConnection,
-  createConnection as createDatabaseConnection,
-} from "typeorm";
+import { Connection as TypeORMConnection, createConnection as createDatabaseConnection } from "typeorm";
 import { User, Post } from "@/entities";
 
 let database: TypeORMConnection;

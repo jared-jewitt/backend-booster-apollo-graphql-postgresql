@@ -1,7 +1,4 @@
-import {
-  Connection as TypeORMConnection,
-  createConnection as createDatabaseConnection,
-} from "typeorm";
+import { Connection as TypeORMConnection, createConnection as createDatabaseConnection } from "typeorm";
 
 let database: TypeORMConnection;
 

@@ -23,8 +23,7 @@ const run = (...[command, ...rest]: string[]): void => {
 ((): void => {
   const action = process.argv[2];
   const flags = process.argv.slice(2).join().replace(/,/g, " ").replace(action, "");
-  const typeorm =
-    "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --connection migrate";
+  const typeorm = "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --connection migrate";
 
   switch (action) {
     case Action.Generate:

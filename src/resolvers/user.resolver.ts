@@ -28,9 +28,7 @@ export default class UserResolver {
   }
 
   @Mutation(() => LoginOutput, { description: "Logs an existing user in" })
-  public async login(
-    @Arg("input", () => LoginInput) { username, password }: LoginInput
-  ): Promise<LoginOutput> {
+  public async login(@Arg("input", () => LoginInput) { username, password }: LoginInput): Promise<LoginOutput> {
     const existingUser = await this.userRepository.findOne({ username }, { relations: ["posts"] });
     if (!existingUser) throw new UserInputError("User not found");
 

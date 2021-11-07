@@ -2,10 +2,7 @@ import fetch from "cross-fetch";
 import { ApolloServer } from "apollo-server";
 import { buildSchema as buildGraphQLSchema } from "type-graphql";
 import { ApolloClient, InMemoryCache, HttpLink, NormalizedCacheObject } from "apollo-boost";
-import {
-  Connection as TypeORMConnection,
-  createConnection as createDatabaseConnection,
-} from "typeorm";
+import { Connection as TypeORMConnection, createConnection as createDatabaseConnection } from "typeorm";
 import { UserResolver, PostResolver } from "@/resolvers";
 import { getUserContext } from "@/context";
 

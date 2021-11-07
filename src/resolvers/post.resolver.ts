@@ -32,10 +32,7 @@ export default class PostResolver {
 
   @Mutation(() => String, { description: "Deletes a single post record by id" })
   @UseMiddleware(AuthMiddleWare)
-  public async deletePost(
-    @Arg("id", () => ID) id: number,
-    @Ctx("user") user: Partial<User>
-  ): Promise<string> {
+  public async deletePost(@Arg("id", () => ID) id: number, @Ctx("user") user: Partial<User>): Promise<string> {
     const existingPost = await this.postRepository.findOne(id);
     if (!existingPost) {
       throw new ApolloError(`No post was found with id: ${id}`, "NOT_FOUND");

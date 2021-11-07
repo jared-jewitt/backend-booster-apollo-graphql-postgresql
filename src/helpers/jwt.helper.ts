@@ -2,10 +2,7 @@ import jwt, { SignOptions, TokenExpiredError } from "jsonwebtoken";
 import { AuthenticationError } from "apollo-server";
 import { User } from "@/entities";
 
-export const generateJWTToken = (
-  user: Pick<User, "id" | "username">,
-  options: SignOptions = {}
-): string => {
+export const generateJWTToken = (user: Pick<User, "id" | "username">, options: SignOptions = {}): string => {
   return jwt.sign(
     {
       id: user.id,
